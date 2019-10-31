@@ -8,12 +8,15 @@
     "precommit": "pretty-quick --staged",
     "prepare": "tsc",
     "build": "tsc",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/sample-request.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "create-typescript-project-dependencies": "^10.0.4"
+  },
+  "dependencies": {
+    "ipp-encoder": "^5.0.0"
   }
 }
