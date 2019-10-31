@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import fs from "fs";
 
 const contentType = "application/ipp";
 
@@ -34,6 +35,8 @@ app.post(
 
     switch (request.requestId) {
       case C.PRINT_JOB: {
+        const document = req.body.slice(ipp.request.decode.bytes);
+        fs.writeFileSync("document.pdf", document);
         const response = {
           version: { major: 1, minor: 0 },
           statusCode: 0,
