@@ -1,0 +1,37 @@
+# https://sequencediagram.org/
+title advisa ↔ scrive
+
+advisa->(1)This Integration:POST Contract Request (/api/v1/contract)
+activate advisa
+activate This Integration
+note over This Integration:Map incoming advisa-requests\nto scrive-requests and register\ncallback URL with scrive.
+This Integration->(1)scrive:POST  /api/v2/documents/newfromtemplate/{documentId}
+activate scrive
+This Integration(1)<--scrive:201 - The document metadata as a JSON.
+deactivate scrive
+This Integration->(1)scrive:POST  /api/v2/documents/{document_id}/update
+activate scrive
+This Integration(1)<--scrive:200 - The document metadata as a JSON.
+deactivate scrive
+This Integration->(1)scrive:POST  /api/v2/documents/{document_id}/start
+activate scrive
+This Integration(1)<--scrive:200 - The document metadata as a JSON.
+deactivate scrive
+advisa(1)<--This Integration:200 Signing Response
+deactivate This Integration
+deactivate advisa
+
+note over scrive:All signatories\nsign document.
+
+
+This Integration(1)<-scrive:POST Document Status Changed (/api/v1/callback)
+activate scrive
+activate This Integration
+note over This Integration:Map incoming scrive-callbacks\nto advisa".
+advisa(1)<-This Integration:POST "document status" to advisa (/scrive/callback)
+activate advisa
+advisa-->(1)This Integration:200
+deactivate advisa
+This Integration-->(1)scrive:200
+deactivate This Integration
+deactivate scrive
