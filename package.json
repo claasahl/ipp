@@ -37,5 +37,10 @@
     "response-time": "^2.3.2",
     "scrive-open-api": "github:scrive/scrive-open-api",
     "winston": "^3.2.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged"
+    }
   }
 }
