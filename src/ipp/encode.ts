@@ -259,8 +259,8 @@ function collectionAttribute(
  * Note: renamed second "name-length" to "member-name-length" to avoid naming conflict
  */
 function memberAttribute(memberAttribute: types.MemberAttribute): Buffer {
-  const w = memberAttribute.value.length;
-  const x = memberAttribute.memberValue.length;
+  const w = memberAttribute.valueLength;
+  const x = memberAttribute.memberValueLength;
   const part1 = Buffer.alloc(10 + w + x);
   part1.writeIntBE(memberAttribute.valueTag, 0, 1);
   part1.writeIntBE(memberAttribute.nameLength, 1, 2);

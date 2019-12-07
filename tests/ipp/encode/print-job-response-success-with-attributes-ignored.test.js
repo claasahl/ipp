@@ -1,10 +1,10 @@
 const encode = require("../../../build/ipp/encode").default;
 
-test("Print-Job Response (Successful)", () => {
+test("Print-Job Response (Success with Attributes Ignored)", () => {
     const message = {
         type: "IppResponse",
-        versionNumber: { minor: 0x01, major: 0x01 },
-        statusCode: 0x0000,
+        versionNumber: {major: 0x01, minor: 0x01},
+        statusCode: 0x0001,
         requestId: 0x00000001,
         attributeGroup: [
             {
@@ -42,11 +42,41 @@ test("Print-Job Response (Successful)", () => {
                             valueTag: 0x41,
                             nameLength: 0x000e,
                             name: "status-message",
-                            valueLength: 0x000d,
-                            value: "successful-ok",
+                            valueLength: 0x002f,
+                            value: "successful-ok-ignored-or-substituted-attributes",
                         },
                         additionalValue: []
-                    }
+                    },
+                ]
+            },
+            {
+                type: "AttributeGroup",
+                beginAttributeGroupTag: 0x05,
+                attribute: [
+                    {
+                        type: "Attribute",
+                        attributeWithOneValue: {
+                            type: "AttributeWithOneValue",
+                            valueTag: 0x21,
+                            nameLength: 0x0006,
+                            name: "copies",
+                            valueLength: 0x0004,
+                            value: 0x00000014,
+                        },
+                        additionalValue: []
+                    },
+                    {
+                        type: "Attribute",
+                        attributeWithOneValue: {
+                            type: "AttributeWithOneValue",
+                            valueTag: 0x10,
+                            nameLength: 0x0005,
+                            name: "sides",
+                            valueLength: 0x0000,
+                            value: ""
+                        },
+                        additionalValue: []
+                    },
                 ]
             },
             {

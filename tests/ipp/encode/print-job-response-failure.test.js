@@ -1,10 +1,10 @@
 const encode = require("../../../build/ipp/encode").default;
 
-test("Print-Job Response (Successful)", () => {
+test("Print-Job Response (Failure)", () => {
     const message = {
         type: "IppResponse",
-        versionNumber: { minor: 0x01, major: 0x01 },
-        statusCode: 0x0000,
+        versionNumber: {major: 0x01, minor: 0x01},
+        statusCode: 0x040b,
         requestId: 0x00000001,
         attributeGroup: [
             {
@@ -12,7 +12,7 @@ test("Print-Job Response (Successful)", () => {
                 beginAttributeGroupTag: 0x01,
                 attribute: [
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
                             valueTag: 0x47,
@@ -24,7 +24,7 @@ test("Print-Job Response (Successful)", () => {
                         additionalValue: []
                     },
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
                             valueTag: 0x48,
@@ -36,56 +36,44 @@ test("Print-Job Response (Successful)", () => {
                         additionalValue: []
                     },
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
                             valueTag: 0x41,
                             nameLength: 0x000e,
                             name: "status-message",
-                            valueLength: 0x000d,
-                            value: "successful-ok",
+                            valueLength: 0x002f,
+                            value: "client-error-attributes-or-values-not-supported",
                         },
                         additionalValue: []
-                    }
+                    },
                 ]
             },
             {
                 type: "AttributeGroup",
-                beginAttributeGroupTag: 0x02,
+                beginAttributeGroupTag: 0x05,
                 attribute: [
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
                             valueTag: 0x21,
                             nameLength: 0x0006,
-                            name: "job-id",
+                            name: "copies",
                             valueLength: 0x0004,
-                            value: 147,
+                            value: 0x00000014,
                         },
                         additionalValue: []
                     },
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
-                            valueTag: 0x45,
-                            nameLength: 0x0007,
-                            name: "job-uri",
-                            valueLength: 0x0030,
-                            value: "ipp://printer.example.com/ipp/print/pinetree/147",
-                        },
-                        additionalValue: []
-                    },
-                    {
-                        type: "Attribute",
-                        attributeWithOneValue: {
-                            type: "AttributeWithOneValue",
-                            valueTag: 0x23,
-                            nameLength: 0x0009,
-                            name: "job-state",
-                            valueLength: 0x0004,
-                            value: 0x00000003,
+                            valueTag: 0x10,
+                            nameLength: 0x0005,
+                            name: "sides",
+                            valueLength: 0x0000,
+                            value: ""
                         },
                         additionalValue: []
                     },

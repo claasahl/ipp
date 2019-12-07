@@ -1,18 +1,18 @@
 const encode = require("../../../build/ipp/encode").default;
 
-test("Print-Job Response (Successful)", () => {
+test("Get-Jobs Response", () => {
     const message = {
         type: "IppResponse",
-        versionNumber: { minor: 0x01, major: 0x01 },
+        versionNumber: {major: 0x01, minor: 0x01},
         statusCode: 0x0000,
-        requestId: 0x00000001,
+        requestId: 0x0000007b,
         attributeGroup: [
             {
                 type: "AttributeGroup",
                 beginAttributeGroupTag: 0x01,
                 attribute: [
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
                             valueTag: 0x47,
@@ -24,7 +24,7 @@ test("Print-Job Response (Successful)", () => {
                         additionalValue: []
                     },
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
                             valueTag: 0x48,
@@ -36,7 +36,7 @@ test("Print-Job Response (Successful)", () => {
                         additionalValue: []
                     },
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
                             valueTag: 0x41,
@@ -46,7 +46,7 @@ test("Print-Job Response (Successful)", () => {
                             value: "successful-ok",
                         },
                         additionalValue: []
-                    }
+                    },
                 ]
             },
             {
@@ -54,7 +54,7 @@ test("Print-Job Response (Successful)", () => {
                 beginAttributeGroupTag: 0x02,
                 attribute: [
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
                             valueTag: 0x21,
@@ -65,36 +65,69 @@ test("Print-Job Response (Successful)", () => {
                         },
                         additionalValue: []
                     },
+                    // {
+                    //     type:"Attribute",
+                    //     attributeWithOneValue: {
+                    //         type: "AttributeWithOneValue",
+                    //         valueTag: 0x36,
+                    //         nameLength: 0x0008,
+                    //         name: "job-name",
+                    //         valueLength: 0x000c,
+                    //         subValueLength: 0x0005,
+                    //         value: "fr-ca",
+                    //         subValueLength: 0x0003,
+                    //         name: "fou",
+                    //     },
+                    //     additionalValue: []
+                    // },
+                ]
+            },
+            {
+                type:"AttributeGroup",
+                beginAttributeGroupTag: 0x02,
+                attribute: [   ]
+            },
+            {
+                type: "AttributeGroup",
+                beginAttributeGroupTag: 0x02,
+                attribute: [
                     {
-                        type: "Attribute",
+                        type:"Attribute",
                         attributeWithOneValue: {
                             type: "AttributeWithOneValue",
-                            valueTag: 0x45,
-                            nameLength: 0x0007,
-                            name: "job-uri",
-                            valueLength: 0x0030,
-                            value: "ipp://printer.example.com/ipp/print/pinetree/147",
-                        },
-                        additionalValue: []
-                    },
-                    {
-                        type: "Attribute",
-                        attributeWithOneValue: {
-                            type: "AttributeWithOneValue",
-                            valueTag: 0x23,
-                            nameLength: 0x0009,
-                            name: "job-state",
+                            valueTag: 0x21,
+                            nameLength: 0x0006,
+                            name: "job-id",
                             valueLength: 0x0004,
-                            value: 0x00000003,
+                            value: 148,
                         },
                         additionalValue: []
                     },
+                    // {
+                    //     type:"Attribute",
+                    //     attributeWithOneValue: {
+                    //         type: "AttributeWithOneValue",
+                    //         valueTag: 0x36,
+                    //         nameLength: 0x0008,
+                    //         name: "job-name",
+                    //         valueLength: 0x0012,
+                    //         subValueLength: 0x0005,
+                    //         value: "de-CH",
+                    //         subValueLength: 0x0009,
+                    //         name: "isch guet",
+                    //     },
+                    //     additionalValue: [
+                    //         {
+                    //             type: "AdditionalValue",
+                    //         }
+                    //     ]
+                    // },
                 ]
             }
         ],
         endOfAttributesTag: 0x03,
         data: Buffer.from([])
-    };
+    }    
 
     const data = encode(message);
     expect(data.toString("hex")).toMatchSnapshot();
