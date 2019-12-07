@@ -110,7 +110,7 @@ export interface AttributeWithOneValue {
   nameLength: number;
   name: string;
   valueLength: number;
-  value: string;
+  value: string | number;
 }
 
 /**
@@ -131,7 +131,7 @@ export interface AdditionalValue {
   valueTag: number;
   nameLength: 0x0;
   valueLength: number;
-  value: string;
+  value: string | number;
 }
 
 /**
