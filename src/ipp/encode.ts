@@ -158,9 +158,9 @@ function attributeWithOneValue(
   part1.write(attributeWithOneValue.name, 3, "utf8");
   part1.writeIntBE(attributeWithOneValue.valueLength, 3 + u, 2);
   if (typeof attributeWithOneValue.value === "string") {
-    part1.write(attributeWithOneValue.value, 5+u, "utf8");
+    part1.write(attributeWithOneValue.value, 5 + u, "utf8");
   } else if (typeof attributeWithOneValue.value === "number") {
-    part1.writeIntBE(attributeWithOneValue.value, 5+u, v);
+    part1.writeIntBE(attributeWithOneValue.value, 5 + u, v);
   }
   return part1;
 }
