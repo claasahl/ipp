@@ -19,7 +19,7 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
               nameLength: 0x0012,
               name: "attributes-charset",
               valueLength: 0x0005,
-              value: "utf-8"
+              value: Buffer.from("utf-8", "utf8")
             },
             additionalValue: []
           },
@@ -31,7 +31,7 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
               nameLength: 0x001b,
               name: "attributes-natural-language",
               valueLength: 0x0005,
-              value: "en-us"
+              value: Buffer.from("en-us", "utf8")
             },
             additionalValue: []
           },
@@ -43,7 +43,10 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
               nameLength: 0x000e,
               name: "status-message",
               valueLength: 0x002f,
-              value: "successful-ok-ignored-or-substituted-attributes"
+              value: Buffer.from(
+                "successful-ok-ignored-or-substituted-attributes",
+                "utf8"
+              )
             },
             additionalValue: []
           }
@@ -61,7 +64,7 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
               nameLength: 0x0006,
               name: "copies",
               valueLength: 0x0004,
-              value: 0x00000014
+              value: Buffer.from([0x00, 0x00, 0x00, 0x14])
             },
             additionalValue: []
           },
@@ -73,7 +76,7 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
               nameLength: 0x0005,
               name: "sides",
               valueLength: 0x0000,
-              value: ""
+              value: Buffer.from("", "utf8")
             },
             additionalValue: []
           }
@@ -91,7 +94,7 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
               nameLength: 0x0006,
               name: "job-id",
               valueLength: 0x0004,
-              value: 147
+              value: Buffer.from([0, 0, 0, 147])
             },
             additionalValue: []
           },
@@ -103,7 +106,10 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
               nameLength: 0x0007,
               name: "job-uri",
               valueLength: 0x0030,
-              value: "ipp://printer.example.com/ipp/print/pinetree/147"
+              value: Buffer.from(
+                "ipp://printer.example.com/ipp/print/pinetree/147",
+                "utf8"
+              )
             },
             additionalValue: []
           },
@@ -115,7 +121,7 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
               nameLength: 0x0009,
               name: "job-state",
               valueLength: 0x0004,
-              value: 0x00000003
+              value: Buffer.from([0x00, 0x00, 0x00, 0x03])
             },
             additionalValue: []
           }

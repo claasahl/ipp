@@ -19,7 +19,7 @@ test("Get-Jobs Response", () => {
               nameLength: 0x0012,
               name: "attributes-charset",
               valueLength: 0x0005,
-              value: "utf-8"
+              value: Buffer.from("utf-8", "utf8")
             },
             additionalValue: []
           },
@@ -31,7 +31,7 @@ test("Get-Jobs Response", () => {
               nameLength: 0x001b,
               name: "attributes-natural-language",
               valueLength: 0x0005,
-              value: "en-us"
+              value: Buffer.from("en-us", "utf8")
             },
             additionalValue: []
           },
@@ -43,7 +43,7 @@ test("Get-Jobs Response", () => {
               nameLength: 0x000e,
               name: "status-message",
               valueLength: 0x000d,
-              value: "successful-ok"
+              value: Buffer.from("successful-ok", "utf8")
             },
             additionalValue: []
           }
@@ -61,7 +61,7 @@ test("Get-Jobs Response", () => {
               nameLength: 0x0006,
               name: "job-id",
               valueLength: 0x0004,
-              value: 147
+              value: Buffer.from([0, 0, 0, 147])
             },
             additionalValue: []
           }
@@ -99,7 +99,7 @@ test("Get-Jobs Response", () => {
               nameLength: 0x0006,
               name: "job-id",
               valueLength: 0x0004,
-              value: 148
+              value: Buffer.from([0, 0, 0, 148])
             },
             additionalValue: []
           }

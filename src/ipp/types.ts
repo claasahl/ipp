@@ -28,7 +28,7 @@ export interface IppRequest {
   operationId: number;
   requestId: number;
   attributeGroup: AttributeGroup[];
-  endOfAttributesTag: 3;
+  endOfAttributesTag: 0x3;
   data: Buffer;
 }
 
@@ -110,7 +110,7 @@ export interface AttributeWithOneValue {
   nameLength: number;
   name: string;
   valueLength: number;
-  value: string | number;
+  value: Buffer;
 }
 
 /**
@@ -131,7 +131,7 @@ export interface AdditionalValue {
   valueTag: number;
   nameLength: 0x0;
   valueLength: number;
-  value: string | number;
+  value: Buffer;
 }
 
 /**
@@ -199,5 +199,5 @@ export interface MemberAttribute {
   memberValueTag: number;
   memberNameLength: 0x0;
   memberValueLength: number;
-  memberValue: string;
+  memberValue: Buffer;
 }

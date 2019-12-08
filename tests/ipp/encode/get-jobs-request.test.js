@@ -19,7 +19,7 @@ test("Get-Jobs Request", () => {
               nameLength: 0x0012,
               name: "attributes-charset",
               valueLength: 0x0005,
-              value: "utf-8"
+              value: Buffer.from("utf-8", "utf8")
             },
             additionalValue: []
           },
@@ -31,7 +31,7 @@ test("Get-Jobs Request", () => {
               nameLength: 0x001b,
               name: "attributes-natural-language",
               valueLength: 0x0005,
-              value: "en-us"
+              value: Buffer.from("en-us", "utf8")
             },
             additionalValue: []
           },
@@ -43,7 +43,10 @@ test("Get-Jobs Request", () => {
               nameLength: 0x000b,
               name: "printer-uri",
               valueLength: 0x002c,
-              value: "ipp://printer.example.com/ipp/print/pinetree"
+              value: Buffer.from(
+                "ipp://printer.example.com/ipp/print/pinetree",
+                "utf8"
+              )
             },
             additionalValue: []
           },
@@ -55,7 +58,7 @@ test("Get-Jobs Request", () => {
               nameLength: 0x0005,
               name: "limit",
               valueLength: 0x0004,
-              value: 0x00000032
+              value: Buffer.from([0x00, 0x00, 0x00, 0x32])
             },
             additionalValue: []
           },
@@ -67,7 +70,7 @@ test("Get-Jobs Request", () => {
               nameLength: 0x0014,
               name: "requested-attributes",
               valueLength: 0x0006,
-              value: "job-id"
+              value: Buffer.from("job-id", "utf8")
             },
             additionalValue: [
               {
@@ -75,14 +78,14 @@ test("Get-Jobs Request", () => {
                 valueTag: 0x44,
                 nameLength: 0x0000,
                 valueLength: 0x0008,
-                value: "job-name"
+                value: Buffer.from("job-name", "utf8")
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x44,
                 nameLength: 0x0000,
                 valueLength: 0x000f,
-                value: "document-format"
+                value: Buffer.from("document-format", "utf8")
               }
             ]
           }

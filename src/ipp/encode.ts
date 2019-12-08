@@ -151,18 +151,17 @@ function attributeWithOneValue(
   attributeWithOneValue: types.AttributeWithOneValue
 ): Buffer {
   const u = attributeWithOneValue.nameLength;
-  const v = attributeWithOneValue.valueLength;
-  const part1 = Buffer.alloc(5 + u + v);
+  const part1 = Buffer.alloc(3 + u);
   part1.writeIntBE(attributeWithOneValue.valueTag, 0, 1);
   part1.writeIntBE(attributeWithOneValue.nameLength, 1, 2);
-  part1.write(attributeWithOneValue.name, 3, "utf8");
-  part1.writeIntBE(attributeWithOneValue.valueLength, 3 + u, 2);
-  if (typeof attributeWithOneValue.value === "string") {
-    part1.write(attributeWithOneValue.value, 5 + u, "utf8");
-  } else if (typeof attributeWithOneValue.value === "number") {
-    part1.writeIntBE(attributeWithOneValue.value, 5 + u, v);
-  }
-  return part1;
+  part1.write(attributeWithOneValue.name, 3, u, "utf8");
+
+  const part2 = Buffer.alloc(2);
+  part2.writeIntBE(attributeWithOneValue.valueLength, 0, 2);
+
+  const v = attributeWithOneValue.valueLength;
+  const part3 = attributeWithOneValue.value.slice(0, v);
+  return Buffer.concat([part1, part2, part3]);
 }
 
 /**
@@ -179,17 +178,14 @@ function attributeWithOneValue(
  * https://tools.ietf.org/html/rfc8010#section-3.1.5
  */
 function additionalValue(additionalValue: types.AdditionalValue): Buffer {
-  const w = additionalValue.valueLength;
-  const part1 = Buffer.alloc(5 + w);
+  const part1 = Buffer.alloc(5);
   part1.writeIntBE(additionalValue.valueTag, 0, 1);
   part1.writeIntBE(additionalValue.nameLength, 1, 2);
   part1.writeIntBE(additionalValue.valueLength, 3, 2);
-  if (typeof additionalValue.value === "string") {
-    part1.write(additionalValue.value, 5, "utf8");
-  } else if (typeof additionalValue.value === "number") {
-    part1.writeIntBE(additionalValue.value, 5, w);
-  }
-  return part1;
+
+  const w = additionalValue.valueLength;
+  const part2 = additionalValue.value.slice(0, w);
+  return Buffer.concat([part1, part2]);
 }
 
 /**
@@ -217,22 +213,24 @@ function collectionAttribute(
   collectionAttribute: types.CollectionAttribute
 ): Buffer {
   const u = collectionAttribute.name.length;
-  const part1 = Buffer.alloc(5 + u);
+  const part1 = Buffer.alloc(3 + u);
   part1.writeIntBE(collectionAttribute.valueTag, 0, 1);
   part1.writeIntBE(collectionAttribute.nameLength, 1, 2);
-  part1.write(collectionAttribute.name, 3, "utf8");
-  part1.writeIntBE(collectionAttribute.valueLength, 3 + u, 2);
+  part1.write(collectionAttribute.name, 3, u, "utf8");
 
-  const part2 = Buffer.concat(
+  const part2 = Buffer.alloc(2);
+  part1.writeIntBE(collectionAttribute.valueLength, 0, 2);
+
+  const part3 = Buffer.concat(
     collectionAttribute.memberAttribute.map(memberAttribute)
   );
 
-  const part3 = Buffer.alloc(5);
-  part3.writeIntBE(collectionAttribute.endValueTag, 0, 1);
-  part3.writeIntBE(collectionAttribute.endNameLength, 1, 2);
-  part3.writeIntBE(collectionAttribute.endValueLength, 3, 2);
+  const part4 = Buffer.alloc(5);
+  part4.writeIntBE(collectionAttribute.endValueTag, 0, 1);
+  part4.writeIntBE(collectionAttribute.endNameLength, 1, 2);
+  part4.writeIntBE(collectionAttribute.endValueLength, 3, 2);
 
-  return Buffer.concat([part1, part2, part3]);
+  return Buffer.concat([part1, part2, part3, part4]);
 }
 
 /**
@@ -260,17 +258,20 @@ function collectionAttribute(
  */
 function memberAttribute(memberAttribute: types.MemberAttribute): Buffer {
   const w = memberAttribute.valueLength;
-  const x = memberAttribute.memberValueLength;
-  const part1 = Buffer.alloc(10 + w + x);
+  const part1 = Buffer.alloc(5 + w);
   part1.writeIntBE(memberAttribute.valueTag, 0, 1);
   part1.writeIntBE(memberAttribute.nameLength, 1, 2);
   part1.writeIntBE(memberAttribute.valueLength, 3, 2);
-  part1.write(memberAttribute.value, 5, "utf8");
-  part1.writeIntBE(memberAttribute.memberValueTag, 5 + w, 1);
-  part1.writeIntBE(memberAttribute.memberNameLength, 6 + w, 2);
-  part1.writeIntBE(memberAttribute.memberValueLength, 8 + w, 2);
-  part1.write(memberAttribute.memberValue, 10, "utf8");
-  return part1;
+  part1.write(memberAttribute.value, 5, w, "utf8");
+
+  const part2 = Buffer.alloc(5);
+  part2.writeIntBE(memberAttribute.memberValueTag, 0, 1);
+  part2.writeIntBE(memberAttribute.memberNameLength, 1, 2);
+  part2.writeIntBE(memberAttribute.memberValueLength, 3, 2);
+
+  const x = memberAttribute.memberValueLength;
+  const part3 = memberAttribute.memberValue.slice(0, x);
+  return Buffer.concat([part1, part2, part3]);
 }
 
 function encode(message: types.IppMessage): Buffer {

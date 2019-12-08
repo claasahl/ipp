@@ -19,7 +19,7 @@ test("Print-Job Response (Failure)", () => {
               nameLength: 0x0012,
               name: "attributes-charset",
               valueLength: 0x0005,
-              value: "utf-8"
+              value: Buffer.from("utf-8", "utf8")
             },
             additionalValue: []
           },
@@ -31,7 +31,7 @@ test("Print-Job Response (Failure)", () => {
               nameLength: 0x001b,
               name: "attributes-natural-language",
               valueLength: 0x0005,
-              value: "en-us"
+              value: Buffer.from("en-us", "utf8")
             },
             additionalValue: []
           },
@@ -43,7 +43,10 @@ test("Print-Job Response (Failure)", () => {
               nameLength: 0x000e,
               name: "status-message",
               valueLength: 0x002f,
-              value: "client-error-attributes-or-values-not-supported"
+              value: Buffer.from(
+                "client-error-attributes-or-values-not-supported",
+                "utf8"
+              )
             },
             additionalValue: []
           }
@@ -61,7 +64,7 @@ test("Print-Job Response (Failure)", () => {
               nameLength: 0x0006,
               name: "copies",
               valueLength: 0x0004,
-              value: 0x00000014
+              value: Buffer.from([0x00, 0x00, 0x00, 0x14])
             },
             additionalValue: []
           },
@@ -73,7 +76,7 @@ test("Print-Job Response (Failure)", () => {
               nameLength: 0x0005,
               name: "sides",
               valueLength: 0x0000,
-              value: ""
+              value: Buffer.from("", "utf8")
             },
             additionalValue: []
           }

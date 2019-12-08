@@ -19,7 +19,7 @@ test("Create-Job Request with Collection Attributes", () => {
               nameLength: 0x0012,
               name: "attributes-charset",
               valueLength: 0x0005,
-              value: "utf-8"
+              value: Buffer.from("utf-8", "utf8")
             },
             additionalValue: []
           },
@@ -31,7 +31,7 @@ test("Create-Job Request with Collection Attributes", () => {
               nameLength: 0x001b,
               name: "attributes-natural-language",
               valueLength: 0x0005,
-              value: "en-us"
+              value: Buffer.from("en-us", "utf8")
             },
             additionalValue: []
           },
@@ -43,7 +43,10 @@ test("Create-Job Request with Collection Attributes", () => {
               nameLength: 0x000b,
               name: "printer-uri",
               valueLength: 0x002c,
-              value: "ipp://printer.example.com/ipp/print/pinetree"
+              value: Buffer.from(
+                "ipp://printer.example.com/ipp/print/pinetree",
+                "utf8"
+              )
             },
             additionalValue: []
           },
@@ -122,7 +125,7 @@ test("Create-Job Request with Collection Attributes", () => {
               nameLength: 0x0009,
               name: "media-col",
               valueLength: 0x0000,
-              value: ""
+              value: Buffer.from("", "utf8")
             },
             additionalValue: [
               {
@@ -130,70 +133,70 @@ test("Create-Job Request with Collection Attributes", () => {
                 valueTag: 0x4a,
                 nameLength: 0x0000,
                 valueLength: 0x000a,
-                value: "media-size"
+                value: Buffer.from("media-size", "utf8")
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x34,
                 nameLength: 0x0000,
                 valueLength: 0x0000,
-                value: ""
+                value: Buffer.from("", "utf8")
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x4a,
                 nameLength: 0x0000,
                 valueLength: 0x000b,
-                value: "x-dimension"
+                value: Buffer.from("x-dimension", "utf8")
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x21,
                 nameLength: 0x0000,
                 valueLength: 0x0004,
-                value: 0x00005208
+                value: Buffer.from([0x00, 0x00, 0x52, 0x08])
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x4a,
                 nameLength: 0x0000,
                 valueLength: 0x000b,
-                value: "y-dimension"
+                value: Buffer.from("y-dimension", "utf8")
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x21,
                 nameLength: 0x0000,
                 valueLength: 0x0004,
-                value: 0x00007404
+                value: Buffer.from([0x00, 0x00, 0x74, 0x04])
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x37,
                 nameLength: 0x0000,
                 valueLength: 0x0000,
-                value: ""
+                value: Buffer.from("", "utf8")
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x4a,
                 nameLength: 0x0000,
                 valueLength: 0x000a,
-                value: "media-type"
+                value: Buffer.from("media-type", "utf8")
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x44,
                 nameLength: 0x0000,
                 valueLength: 0x000a,
-                value: "stationery"
+                value: Buffer.from("stationery", "utf8")
               },
               {
                 type: "AdditionalValue",
                 valueTag: 0x37,
                 nameLength: 0x0000,
                 valueLength: 0x0000,
-                value: ""
+                value: Buffer.from("", "utf8")
               }
             ]
           }

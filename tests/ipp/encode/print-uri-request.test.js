@@ -19,7 +19,7 @@ test("Print-URI Request", () => {
               nameLength: 0x0012,
               name: "attributes-charset",
               valueLength: 0x0005,
-              value: "utf-8"
+              value: Buffer.from("utf-8", "utf8")
             },
             additionalValue: []
           },
@@ -31,7 +31,7 @@ test("Print-URI Request", () => {
               nameLength: 0x001b,
               name: "attributes-natural-language",
               valueLength: 0x0005,
-              value: "en-us"
+              value: Buffer.from("en-us", "utf8")
             },
             additionalValue: []
           },
@@ -43,7 +43,10 @@ test("Print-URI Request", () => {
               nameLength: 0x000b,
               name: "printer-uri",
               valueLength: 0x002c,
-              value: "ipp://printer.example.com/ipp/print/pinetree"
+              value: Buffer.from(
+                "ipp://printer.example.com/ipp/print/pinetree",
+                "utf8"
+              )
             },
             additionalValue: []
           },
@@ -55,7 +58,7 @@ test("Print-URI Request", () => {
               nameLength: 0x000c,
               name: "document-uri",
               valueLength: 0x0019,
-              value: "ftp://foo.example.com/foo"
+              value: Buffer.from("ftp://foo.example.com/foo", "utf8")
             },
             additionalValue: []
           },
@@ -67,7 +70,7 @@ test("Print-URI Request", () => {
               nameLength: 0x0008,
               name: "job-name",
               valueLength: 0x0006,
-              value: "foobar"
+              value: Buffer.from("foobar", "utf8")
             },
             additionalValue: []
           }
@@ -85,7 +88,7 @@ test("Print-URI Request", () => {
               nameLength: 0x0006,
               name: "copies",
               valueLength: 0x0004,
-              value: 0x00000001
+              value: Buffer.from([0x00, 0x00, 0x00, 0x01])
             },
             additionalValue: []
           }
