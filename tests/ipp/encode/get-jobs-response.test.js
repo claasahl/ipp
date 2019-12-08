@@ -64,22 +64,24 @@ test("Get-Jobs Response", () => {
               value: Buffer.from([0, 0, 0, 147])
             },
             additionalValue: []
+          },
+          {
+            type: "Attribute",
+            attributeWithOneValue: {
+              type: "AttributeWithOneValue",
+              valueTag: 0x36,
+              nameLength: 0x0008,
+              name: "job-name",
+              valueLength: 0x000c,
+              value: Buffer.concat([
+                Buffer.from([0x00, 0x05]),
+                Buffer.from("fr-ca", "utf8"),
+                Buffer.from([0x00, 0x03]),
+                Buffer.from("fou", "utf8")
+              ])
+            },
+            additionalValue: []
           }
-          // {
-          //     type:"Attribute",
-          //     attributeWithOneValue: {
-          //         type: "AttributeWithOneValue",
-          //         valueTag: 0x36,
-          //         nameLength: 0x0008,
-          //         name: "job-name",
-          //         valueLength: 0x000c,
-          //         subValueLength: 0x0005,
-          //         value: "fr-ca",
-          //         subValueLength: 0x0003,
-          //         name: "fou",
-          //     },
-          //     additionalValue: []
-          // },
         ]
       },
       {
@@ -102,26 +104,24 @@ test("Get-Jobs Response", () => {
               value: Buffer.from([0, 0, 0, 148])
             },
             additionalValue: []
+          },
+          {
+            type: "Attribute",
+            attributeWithOneValue: {
+              type: "AttributeWithOneValue",
+              valueTag: 0x36,
+              nameLength: 0x0008,
+              name: "job-name",
+              valueLength: 0x0012,
+              value: Buffer.concat([
+                Buffer.from([0x00, 0x05]),
+                Buffer.from("de-CH", "utf8"),
+                Buffer.from([0x00, 0x09]),
+                Buffer.from("isch guet", "utf8")
+              ])
+            },
+            additionalValue: []
           }
-          // {
-          //     type:"Attribute",
-          //     attributeWithOneValue: {
-          //         type: "AttributeWithOneValue",
-          //         valueTag: 0x36,
-          //         nameLength: 0x0008,
-          //         name: "job-name",
-          //         valueLength: 0x0012,
-          //         subValueLength: 0x0005,
-          //         value: "de-CH",
-          //         subValueLength: 0x0009,
-          //         name: "isch guet",
-          //     },
-          //     additionalValue: [
-          //         {
-          //             type: "AdditionalValue",
-          //         }
-          //     ]
-          // },
         ]
       }
     ],
