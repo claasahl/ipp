@@ -14,8 +14,5 @@ export const logger = createLogger({
   defaultMeta: { service: CONFIG.name },
   transports: [new transports.Console()]
 });
-logger.debug("active configuration", {
-  ...CONFIG,
-  scrive: { ...CONFIG.scrive, credentials: "***" }
-});
+logger.debug("active configuration", CONFIG);
 export default logger;

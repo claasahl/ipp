@@ -1,4 +1,3 @@
-import { types } from "scrive-open-api";
 import rateLimit from "express-rate-limit";
 
 interface Config {
@@ -18,16 +17,6 @@ interface Config {
    * Log Level
    */
   log_level: string;
-  /**
-   * SCRIVE configuration settings
-   */
-  scrive: {
-    host: string;
-    credentials: types.PersonalAccessCredentials;
-  };
-  /**
-   * GECKOBOARD configuration settings
-   */
   security: {
     rateLimit: rateLimit.Options;
   };
@@ -37,24 +26,6 @@ const CONFIG: Config = {
   port: parseInt(process.env.PORT || "configure env. variable PORT"),
   name: process.env.name || "configure env. variable NAME",
   log_level: process.env.LOG_LEVEL || "configure env. variable LOG_LEVEL",
-  scrive: {
-    host:
-      process.env.SCRIVE_API_HOST || "configure env. variable SCRIVE_API_HOST",
-    credentials: {
-      accesstoken:
-        process.env.SCRIVE_ACCESSTOKEN ||
-        "configure env. variable SCRIVE_ACCESSTOKEN",
-      accesssecret:
-        process.env.SCRIVE_ACCESSSECRET ||
-        "configure env. variable SCRIVE_ACCESSSECRET",
-      apitoken:
-        process.env.SCRIVE_APITOKEN ||
-        "configure env. variable SCRIVE_APITOKEN",
-      apisecret:
-        process.env.SCRIVE_APISECRET ||
-        "configure env. variable SCRIVE_APISECRET"
-    }
-  },
   security: {
     rateLimit: {
       windowMs: Number(

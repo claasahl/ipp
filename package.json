@@ -35,7 +35,6 @@
     "express-rate-limit": "^5.0.0",
     "helmet": "^3.21.2",
     "response-time": "^2.3.2",
-    "scrive-open-api": "github:scrive/scrive-open-api",
     "winston": "^3.2.1"
   },
   "husky": {
