@@ -1,15 +1,4 @@
-import { Buffer } from "buffer";
-
 import * as types from "./types";
-
-function ippMessage(
-  message: Buffer,
-  begin?: number,
-  end?: number
-): types.IppMessage {
-  const buffer = message.slice(begin, end);
-  return ippRequest(buffer);
-}
 
 /**
  * -----------------------------------------------
@@ -280,14 +269,17 @@ function additionalValue(
     );
   }
   const valueLength = buffer.readIntBE(3, 2);
-  const value = buffer.slice(5, valueLength);
+  const value = buffer.slice(5, 5 + valueLength);
   return {
     data: { type: "AdditionalValue", valueTag, nameLength, valueLength, value },
     length: 5 + nameLength + valueLength
   };
 }
 
-function decode(message: Buffer): types.IppMessage {
-  return ippMessage(message);
+function decode(message: Buffer, request: boolean): types.IppMessage {
+  if (request) {
+    return ippRequest(message);
+  }
+  return ippResponse(message);
 }
 export default decode;
