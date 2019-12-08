@@ -71,7 +71,7 @@ export interface IppResponse {
 export interface AttributeGroup {
   type: "AttributeGroup";
   beginAttributeGroupTag: number;
-  attribute: Attribute[] | CollectionAttribute[];
+  attribute: Attribute[];
 }
 
 /**
@@ -132,72 +132,4 @@ export interface AdditionalValue {
   nameLength: 0x0;
   valueLength: number;
   value: Buffer;
-}
-
-/**
- * -----------------------------------------------
- * |          value-tag (value is 0x34)          |   1 byte
- * -----------------------------------------------
- * |          name-length (value is u)           |   2 bytes
- * -----------------------------------------------
- * |                     name                    |   u bytes
- * -----------------------------------------------
- * |        value-length (value is 0x0000)       |   2 bytes
- * -----------------------------------------------------------
- * |               member-attribute              |   q bytes |-0 or more
- * -----------------------------------------------------------
- * |        end-value-tag (value is 0x37)        |   1 byte
- * -----------------------------------------------
- * |      end-name-length (value is 0x0000)      |   2 bytes
- * -----------------------------------------------
- * |      end-value-length (value is 0x0000)     |   2 bytes
- * -----------------------------------------------
- *
- * https://tools.ietf.org/html/rfc8010#section-3.1.6
- */
-export interface CollectionAttribute {
-  type: "CollectionAttribute";
-  valueTag: 0x34;
-  nameLength: number;
-  name: string;
-  valueLength: 0x0;
-  memberAttribute: MemberAttribute[];
-  endValueTag: 0x37;
-  endNameLength: 0x0;
-  endValueLength: 0x0;
-}
-
-/**
- * -----------------------------------------------
- * |          value-tag (value is 0x4a)          |   1 byte
- * -----------------------------------------------
- * |        name-length (value is 0x0000)        |   2 bytes
- * -----------------------------------------------
- * |          value-length (value is w)          |   2 bytes
- * -----------------------------------------------
- * |             value (member-name)             |   w bytes
- * -----------------------------------------------
- * |               member-value-tag              |   1 byte
- * -----------------------------------------------
- * |        name-length (value is 0x0000)        |   2 bytes
- * -----------------------------------------------
- * |      member-value-length (value is x)       |   2 bytes
- * -----------------------------------------------
- * |                member-value                 |   x bytes
- * -----------------------------------------------
- *
- * https://tools.ietf.org/html/rfc8010#section-3.1.7
- *
- * Note: renamed second "name-length" to "member-name-length" to avoid naming conflict
- */
-export interface MemberAttribute {
-  type: "MemberAttribute";
-  valueTag: 0x4a;
-  nameLength: 0x0;
-  valueLength: number;
-  value: string;
-  memberValueTag: number;
-  memberNameLength: 0x0;
-  memberValueLength: number;
-  memberValue: Buffer;
 }
