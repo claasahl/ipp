@@ -55,7 +55,7 @@ export interface IppResponse {
   statusCode: number;
   requestId: number;
   attributeGroup: AttributeGroup[];
-  endOfAttributesTag: number;
+  endOfAttributesTag: 0x03;
   data: Buffer;
 }
 
