@@ -127,17 +127,15 @@ function attributeWithOneValue(
   attributeWithOneValue: types.AttributeWithOneValue
 ): Buffer {
   const u = attributeWithOneValue.nameLength;
-  const part1 = Buffer.alloc(3 + u);
+  const part1 = Buffer.alloc(5 + u);
   part1.writeIntBE(attributeWithOneValue.valueTag, 0, 1);
   part1.writeIntBE(attributeWithOneValue.nameLength, 1, 2);
   part1.write(attributeWithOneValue.name, 3, u, "utf8");
-
-  const part2 = Buffer.alloc(2);
-  part2.writeIntBE(attributeWithOneValue.valueLength, 0, 2);
+  part1.writeIntBE(attributeWithOneValue.valueLength, 3 + u, 2);
 
   const v = attributeWithOneValue.valueLength;
-  const part3 = attributeWithOneValue.value.slice(0, v);
-  return Buffer.concat([part1, part2, part3]);
+  const part2 = attributeWithOneValue.value.slice(0, v);
+  return Buffer.concat([part1, part2]);
 }
 
 /**
