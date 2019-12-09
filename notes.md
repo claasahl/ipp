@@ -146,6 +146,20 @@ https://tools.ietf.org/html/rfc8010#section-9.1
        MUST do the same for a version '1.1' request.
 ```
 
+### Conformance
+
+https://tools.ietf.org/html/rfc8011#section-6.1
+
+```
+   A conforming Client supports all REQUIRED operations as defined in
+   this document.  For each attribute included in an operation request,
+   a conforming Client MUST supply a value whose type and value syntax
+   conforms to the requirements specified in Sections 4 and 5 of this
+   document.  A conforming Client MAY supply any Standards Track
+   extensions and/or vendor extensions in an operation request, as long
+   as the extensions meet the requirements in Section 7.
+```
+
 ## RFC8010
 
 ### Change Request
