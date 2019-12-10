@@ -2,23 +2,13 @@ import { Buffer } from "buffer";
 
 import * as types from "./types";
 
-function ippMessage(message: types.IppMessage): Buffer {
-  switch (message.type) {
-    case "IppRequest":
-      return ippRequest(message);
-    case "IppResponse":
-      return ippResponse(message);
-    default:
-      // unknown type of message... silently ignore and pray :P
-      return Buffer.from([]);
-  }
-}
-
 /**
  * -----------------------------------------------
  * |                  version-number             |   2 bytes  - required
  * -----------------------------------------------
- * |               operation-id (request)        |   2 bytes  - required
+ * |               operation-id (request)        |
+ * |                      or                     |   2 bytes  - required
+ * |               status-code (response)        |
  * -----------------------------------------------
  * |                   request-id                |   4 bytes  - required
  * -----------------------------------------------
@@ -31,11 +21,11 @@ function ippMessage(message: types.IppMessage): Buffer {
  *
  * https://tools.ietf.org/html/rfc8010#section-3.1.1
  */
-function ippRequest(request: types.IppRequest): Buffer {
+function ippMessage(request: types.IppMessage): Buffer {
   const part1 = Buffer.alloc(8);
   part1.writeIntBE(request.versionNumber.major, 0, 1);
   part1.writeIntBE(request.versionNumber.minor, 1, 1);
-  part1.writeIntBE(request.operationId, 2, 2);
+  part1.writeIntBE(request.operationIdOrStatusCode, 2, 2);
   part1.writeIntBE(request.requestId, 4, 4);
 
   const part2 = Buffer.concat(request.attributeGroup.map(attributeGroup));
@@ -43,37 +33,6 @@ function ippRequest(request: types.IppRequest): Buffer {
   const part3 = Buffer.alloc(1);
   part3.writeIntBE(request.endOfAttributesTag, 0, 1);
   return Buffer.concat([part1, part2, part3, request.data]);
-}
-
-/**
- * -----------------------------------------------
- * |                  version-number             |   2 bytes  - required
- * -----------------------------------------------
- * |               status-code (response)        |   2 bytes  - required
- * -----------------------------------------------
- * |                   request-id                |   4 bytes  - required
- * -----------------------------------------------
- * |                 attribute-group             |   n bytes - 0 or more
- * -----------------------------------------------
- * |              end-of-attributes-tag          |   1 byte   - required
- * -----------------------------------------------
- * |                     data                    |   q bytes  - optional
- * -----------------------------------------------
- *
- * https://tools.ietf.org/html/rfc8010#section-3.1.1
- */
-function ippResponse(response: types.IppResponse): Buffer {
-  const part1 = Buffer.alloc(8);
-  part1.writeIntBE(response.versionNumber.major, 0, 1);
-  part1.writeIntBE(response.versionNumber.minor, 1, 1);
-  part1.writeIntBE(response.statusCode, 2, 2);
-  part1.writeIntBE(response.requestId, 4, 4);
-
-  const part2 = Buffer.concat(response.attributeGroup.map(attributeGroup));
-
-  const part3 = Buffer.alloc(1);
-  part3.writeIntBE(response.endOfAttributesTag, 0, 1);
-  return Buffer.concat([part1, part2, part3, response.data]);
 }
 
 /**

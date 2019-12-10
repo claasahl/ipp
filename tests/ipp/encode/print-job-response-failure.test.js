@@ -2,9 +2,9 @@ const encode = require("../../../build/ipp/encode").default;
 
 test("Print-Job Response (Failure)", () => {
   const message = {
-    type: "IppResponse",
+    type: "IppMessage",
     versionNumber: { major: 0x01, minor: 0x01 },
-    statusCode: 0x040b,
+    operationIdOrStatusCode: 0x040b,
     requestId: 0x00000001,
     attributeGroup: [
       {

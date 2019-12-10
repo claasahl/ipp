@@ -4,7 +4,9 @@ import * as types from "./types";
  * -----------------------------------------------
  * |                  version-number             |   2 bytes  - required
  * -----------------------------------------------
- * |               operation-id (request)        |   2 bytes  - required
+ * |               operation-id (request)        |
+ * |                      or                     |   2 bytes  - required
+ * |               status-code (response)        |
  * -----------------------------------------------
  * |                   request-id                |   4 bytes  - required
  * -----------------------------------------------
@@ -17,15 +19,15 @@ import * as types from "./types";
  *
  * https://tools.ietf.org/html/rfc8010#section-3.1.1
  */
-function ippRequest(
+function ippMessage(
   request: Buffer,
   begin?: number,
   end?: number
-): types.IppRequest {
+): types.IppMessage {
   const buffer = request.slice(begin, end);
   const major = buffer.readIntBE(0, 1);
   const minor = buffer.readIntBE(1, 1);
-  const operationId = buffer.readIntBE(2, 2);
+  const operationIdOrStatusCode = buffer.readIntBE(2, 2);
   const requestId = buffer.readIntBE(4, 4);
 
   let offset = 8;
@@ -44,73 +46,14 @@ function ippRequest(
   const endOfAttributesTag = buffer.readIntBE(offset, 1);
   if (endOfAttributesTag !== 3) {
     throw new Error(
-      `'endOfAttributesTag' for IppRequest was ${endOfAttributesTag}, but should have been 3`
+      `'endOfAttributesTag' for IppMessage was ${endOfAttributesTag}, but should have been 3`
     );
   }
   const data = buffer.slice(offset + 1);
   return {
-    type: "IppRequest",
+    type: "IppMessage",
     versionNumber: { major, minor },
-    operationId,
-    requestId,
-    attributeGroup: attributeGroups,
-    endOfAttributesTag,
-    data
-  };
-}
-
-/**
- * -----------------------------------------------
- * |                  version-number             |   2 bytes  - required
- * -----------------------------------------------
- * |               status-code (response)        |   2 bytes  - required
- * -----------------------------------------------
- * |                   request-id                |   4 bytes  - required
- * -----------------------------------------------
- * |                 attribute-group             |   n bytes - 0 or more
- * -----------------------------------------------
- * |              end-of-attributes-tag          |   1 byte   - required
- * -----------------------------------------------
- * |                     data                    |   q bytes  - optional
- * -----------------------------------------------
- *
- * https://tools.ietf.org/html/rfc8010#section-3.1.1
- */
-function ippResponse(
-  response: Buffer,
-  begin?: number,
-  end?: number
-): types.IppResponse {
-  const buffer = response.slice(begin, end);
-  const major = buffer.readIntBE(0, 1);
-  const minor = buffer.readIntBE(1, 1);
-  const statusCode = buffer.readIntBE(2, 2);
-  const requestId = buffer.readIntBE(4, 4);
-
-  let offset = 8;
-  const attributeGroups: types.AttributeGroup[] = [];
-  do {
-    let part1;
-    try {
-      part1 = attributeGroup(buffer, offset);
-    } catch (error) {
-      break;
-    }
-    offset += part1.length;
-    attributeGroups.push(part1.data);
-  } while (offset < buffer.length);
-
-  const endOfAttributesTag = buffer.readIntBE(offset, 1);
-  if (endOfAttributesTag !== 3) {
-    throw new Error(
-      `'endOfAttributesTag' for IppResponse was ${endOfAttributesTag}, but should have been 3`
-    );
-  }
-  const data = buffer.slice(offset + 1);
-  return {
-    type: "IppResponse",
-    versionNumber: { major, minor },
-    statusCode,
+    operationIdOrStatusCode,
     requestId,
     attributeGroup: attributeGroups,
     endOfAttributesTag,
@@ -276,10 +219,7 @@ function additionalValue(
   };
 }
 
-function decode(message: Buffer, request: boolean): types.IppMessage {
-  if (request) {
-    return ippRequest(message);
-  }
-  return ippResponse(message);
+function decode(message: Buffer): types.IppMessage {
+  return ippMessage(message);
 }
 export default decode;

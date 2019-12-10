@@ -2,9 +2,9 @@ const encode = require("../../../build/ipp/encode").default;
 
 test("Get-Jobs Request", () => {
   const message = {
-    type: "IppRequest",
+    type: "IppMessage",
     versionNumber: { major: 0x01, minor: 0x01 },
-    operationId: 0x000a,
+    operationIdOrStatusCode: 0x000a,
     requestId: 0x0000007b,
     attributeGroup: [
       {

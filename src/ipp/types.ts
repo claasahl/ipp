@@ -1,5 +1,3 @@
-export type IppMessage = IppRequest | IppResponse;
-
 export interface VersionNumber {
   major: number;
   minor: number;
@@ -9,7 +7,9 @@ export interface VersionNumber {
  * -----------------------------------------------
  * |                  version-number             |   2 bytes  - required
  * -----------------------------------------------
- * |               operation-id (request)        |   2 bytes  - required
+ * |               operation-id (request)        |
+ * |                      or                     |   2 bytes  - required
+ * |               status-code (response)        |
  * -----------------------------------------------
  * |                   request-id                |   4 bytes  - required
  * -----------------------------------------------
@@ -22,37 +22,10 @@ export interface VersionNumber {
  *
  * https://tools.ietf.org/html/rfc8010#section-3.1.1
  */
-export interface IppRequest {
-  type: "IppRequest";
+export interface IppMessage {
+  type: "IppMessage";
   versionNumber: VersionNumber;
-  operationId: number;
-  requestId: number;
-  attributeGroup: AttributeGroup[];
-  endOfAttributesTag: 0x3;
-  data: Buffer;
-}
-
-/**
- * -----------------------------------------------
- * |                  version-number             |   2 bytes  - required
- * -----------------------------------------------
- * |               status-code (response)        |   2 bytes  - required
- * -----------------------------------------------
- * |                   request-id                |   4 bytes  - required
- * -----------------------------------------------
- * |                 attribute-group             |   n bytes - 0 or more
- * -----------------------------------------------
- * |              end-of-attributes-tag          |   1 byte   - required
- * -----------------------------------------------
- * |                     data                    |   q bytes  - optional
- * -----------------------------------------------
- *
- * https://tools.ietf.org/html/rfc8010#section-3.1.1
- */
-export interface IppResponse {
-  type: "IppResponse";
-  versionNumber: VersionNumber;
-  statusCode: number;
+  operationIdOrStatusCode: number;
   requestId: number;
   attributeGroup: AttributeGroup[];
   endOfAttributesTag: 0x03;
