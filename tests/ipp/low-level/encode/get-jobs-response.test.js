@@ -1,16 +1,11 @@
-const decode = require("../../../build/ipp/decode").default;
+const encode = require("../../../../build/ipp/low-level/encode").default;
 
-test("Print-Job Response (Success with Attributes Ignored)", () => {
-  const data = Buffer.from(
-    "010100010000000101470012617474726962757465732d6368617273657400057574662d3848001b617474726962757465732d6e61747572616c2d6c616e67756167650005656e2d757341000e7374617475732d6d657373616765002f7375636365737366756c2d6f6b2d69676e6f7265642d6f722d73756273746974757465642d6174747269627574657305210006636f7069657300040000001410000573696465730000022100066a6f622d69640004000000934500076a6f622d75726900306970703a2f2f7072696e7465722e6578616d706c652e636f6d2f6970702f7072696e742f70696e65747265652f3134372300096a6f622d737461746500040000000303",
-    "hex"
-  );
-  const message = decode(data);
-  expect(message).toStrictEqual({
+test("Get-Jobs Response", () => {
+  const message = {
     type: "IppMessage",
     versionNumber: { major: 0x01, minor: 0x01 },
-    operationIdOrStatusCode: 0x0001,
-    requestId: 0x00000001,
+    operationIdOrStatusCode: 0x0000,
+    requestId: 0x0000007b,
     attributeGroup: [
       {
         type: "AttributeGroup",
@@ -47,41 +42,8 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
               valueTag: 0x41,
               nameLength: 0x000e,
               name: "status-message",
-              valueLength: 0x002f,
-              value: Buffer.from(
-                "successful-ok-ignored-or-substituted-attributes",
-                "utf8"
-              )
-            },
-            additionalValue: []
-          }
-        ]
-      },
-      {
-        type: "AttributeGroup",
-        beginAttributeGroupTag: 0x05,
-        attribute: [
-          {
-            type: "Attribute",
-            attributeWithOneValue: {
-              type: "AttributeWithOneValue",
-              valueTag: 0x21,
-              nameLength: 0x0006,
-              name: "copies",
-              valueLength: 0x0004,
-              value: Buffer.from([0x00, 0x00, 0x00, 0x14])
-            },
-            additionalValue: []
-          },
-          {
-            type: "Attribute",
-            attributeWithOneValue: {
-              type: "AttributeWithOneValue",
-              valueTag: 0x10,
-              nameLength: 0x0005,
-              name: "sides",
-              valueLength: 0x0000,
-              value: Buffer.from("", "utf8")
+              valueLength: 0x000d,
+              value: Buffer.from("successful-ok", "utf8")
             },
             additionalValue: []
           }
@@ -107,14 +69,39 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
             type: "Attribute",
             attributeWithOneValue: {
               type: "AttributeWithOneValue",
-              valueTag: 0x45,
-              nameLength: 0x0007,
-              name: "job-uri",
-              valueLength: 0x0030,
-              value: Buffer.from(
-                "ipp://printer.example.com/ipp/print/pinetree/147",
-                "utf8"
-              )
+              valueTag: 0x36,
+              nameLength: 0x0008,
+              name: "job-name",
+              valueLength: 0x000c,
+              value: Buffer.concat([
+                Buffer.from([0x00, 0x05]),
+                Buffer.from("fr-ca", "utf8"),
+                Buffer.from([0x00, 0x03]),
+                Buffer.from("fou", "utf8")
+              ])
+            },
+            additionalValue: []
+          }
+        ]
+      },
+      {
+        type: "AttributeGroup",
+        beginAttributeGroupTag: 0x02,
+        attribute: []
+      },
+      {
+        type: "AttributeGroup",
+        beginAttributeGroupTag: 0x02,
+        attribute: [
+          {
+            type: "Attribute",
+            attributeWithOneValue: {
+              type: "AttributeWithOneValue",
+              valueTag: 0x21,
+              nameLength: 0x0006,
+              name: "job-id",
+              valueLength: 0x0004,
+              value: Buffer.from([0, 0, 0, 148])
             },
             additionalValue: []
           },
@@ -122,11 +109,16 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
             type: "Attribute",
             attributeWithOneValue: {
               type: "AttributeWithOneValue",
-              valueTag: 0x23,
-              nameLength: 0x0009,
-              name: "job-state",
-              valueLength: 0x0004,
-              value: Buffer.from([0x00, 0x00, 0x00, 0x03])
+              valueTag: 0x36,
+              nameLength: 0x0008,
+              name: "job-name",
+              valueLength: 0x0012,
+              value: Buffer.concat([
+                Buffer.from([0x00, 0x05]),
+                Buffer.from("de-CH", "utf8"),
+                Buffer.from([0x00, 0x09]),
+                Buffer.from("isch guet", "utf8")
+              ])
             },
             additionalValue: []
           }
@@ -135,5 +127,10 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
     ],
     endOfAttributesTag: 0x03,
     data: Buffer.from([])
-  });
+  };
+
+  const data = encode(message);
+  expect(data.toString("hex")).toBe(
+    "010100000000007b01470012617474726962757465732d6368617273657400057574662d3848001b617474726962757465732d6e61747572616c2d6c616e67756167650005656e2d757341000e7374617475732d6d657373616765000d7375636365737366756c2d6f6b022100066a6f622d69640004000000933600086a6f622d6e616d65000c000566722d63610003666f7502022100066a6f622d69640004000000943600086a6f622d6e616d650012000564652d4348000969736368206775657403"
+  );
 });

@@ -1,4 +1,4 @@
-const encode = require("../../../build/ipp/encode").default;
+const encode = require("../../../../build/ipp/low-level/encode").default;
 
 test("Print-Job Response (Failure)", () => {
   const message = {

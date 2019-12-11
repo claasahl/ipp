@@ -1,5 +1,5 @@
-import encodeRaw from "../encode";
-import * as types from "../types";
+import encodeRaw from "../low-level/encode";
+import * as types from "../low-level/types";
 import { Message, Attribute, AttributeGroup } from "./types";
 
 function message2(message: Message): types.IppMessage {

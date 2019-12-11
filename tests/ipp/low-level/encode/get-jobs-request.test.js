@@ -1,16 +1,11 @@
-const decode = require("../../../build/ipp/decode").default;
+const encode = require("../../../../build/ipp/low-level/encode").default;
 
-test("Print-URI Request", () => {
-  const data = Buffer.from(
-    "010100030000000101470012617474726962757465732d6368617273657400057574662d3848001b617474726962757465732d6e61747572616c2d6c616e67756167650005656e2d757345000b7072696e7465722d757269002c6970703a2f2f7072696e7465722e6578616d706c652e636f6d2f6970702f7072696e742f70696e657472656545000c646f63756d656e742d75726900196674703a2f2f666f6f2e6578616d706c652e636f6d2f666f6f4200086a6f622d6e616d650006666f6f62617202210006636f7069657300040000000103",
-    "hex"
-  );
-  const message = decode(data);
-  expect(message).toStrictEqual({
+test("Get-Jobs Request", () => {
+  const message = {
     type: "IppMessage",
     versionNumber: { major: 0x01, minor: 0x01 },
-    operationIdOrStatusCode: 0x0003,
-    requestId: 0x00000001,
+    operationIdOrStatusCode: 0x000a,
+    requestId: 0x0000007b,
     attributeGroup: [
       {
         type: "AttributeGroup",
@@ -59,11 +54,11 @@ test("Print-URI Request", () => {
             type: "Attribute",
             attributeWithOneValue: {
               type: "AttributeWithOneValue",
-              valueTag: 0x45,
-              nameLength: 0x000c,
-              name: "document-uri",
-              valueLength: 0x0019,
-              value: Buffer.from("ftp://foo.example.com/foo", "utf8")
+              valueTag: 0x21,
+              nameLength: 0x0005,
+              name: "limit",
+              valueLength: 0x0004,
+              value: Buffer.from([0x00, 0x00, 0x00, 0x32])
             },
             additionalValue: []
           },
@@ -71,36 +66,38 @@ test("Print-URI Request", () => {
             type: "Attribute",
             attributeWithOneValue: {
               type: "AttributeWithOneValue",
-              valueTag: 0x42,
-              nameLength: 0x0008,
-              name: "job-name",
+              valueTag: 0x44,
+              nameLength: 0x0014,
+              name: "requested-attributes",
               valueLength: 0x0006,
-              value: Buffer.from("foobar", "utf8")
+              value: Buffer.from("job-id", "utf8")
             },
-            additionalValue: []
-          }
-        ]
-      },
-      {
-        type: "AttributeGroup",
-        beginAttributeGroupTag: 0x02,
-        attribute: [
-          {
-            type: "Attribute",
-            attributeWithOneValue: {
-              type: "AttributeWithOneValue",
-              valueTag: 0x21,
-              nameLength: 0x0006,
-              name: "copies",
-              valueLength: 0x0004,
-              value: Buffer.from([0x00, 0x00, 0x00, 0x01])
-            },
-            additionalValue: []
+            additionalValue: [
+              {
+                type: "AdditionalValue",
+                valueTag: 0x44,
+                nameLength: 0x0000,
+                valueLength: 0x0008,
+                value: Buffer.from("job-name", "utf8")
+              },
+              {
+                type: "AdditionalValue",
+                valueTag: 0x44,
+                nameLength: 0x0000,
+                valueLength: 0x000f,
+                value: Buffer.from("document-format", "utf8")
+              }
+            ]
           }
         ]
       }
     ],
     endOfAttributesTag: 0x03,
     data: Buffer.from([])
-  });
+  };
+
+  const data = encode(message);
+  expect(data.toString("hex")).toBe(
+    "0101000a0000007b01470012617474726962757465732d6368617273657400057574662d3848001b617474726962757465732d6e61747572616c2d6c616e67756167650005656e2d757345000b7072696e7465722d757269002c6970703a2f2f7072696e7465722e6578616d706c652e636f6d2f6970702f7072696e742f70696e65747265652100056c696d69740004000000324400147265717565737465642d6174747269627574657300066a6f622d696444000000086a6f622d6e616d65440000000f646f63756d656e742d666f726d617403"
+  );
 });

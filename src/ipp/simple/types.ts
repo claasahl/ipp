@@ -1,5 +1,3 @@
-import * as types from "../types";
-
 export type VersionNumber = "1.0" | "1.1" | "2.0";
 
 export interface Message {

@@ -1,4 +1,4 @@
-const decode = require("../../../build/ipp/decode").default;
+const decode = require("../../../../build/ipp/low-level/decode").default;
 
 test("Create-Job Request with Collection Attributes", () => {
   const data = Buffer.from(

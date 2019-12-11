@@ -1,15 +1,15 @@
-const decode = require("../../../build/ipp/decode").default;
+const decode = require("../../../../build/ipp/low-level/decode").default;
 
-test("Print-Job Request", () => {
+test("Print-Job Response (Failure)", () => {
   const data = Buffer.from(
-    "010100020000000101470012617474726962757465732d6368617273657400057574662d3848001b617474726962757465732d6e61747572616c2d6c616e67756167650005656e2d757345000b7072696e7465722d757269002c6970703a2f2f7072696e7465722e6578616d706c652e636f6d2f6970702f7072696e742f70696e65747265654200086a6f622d6e616d650006666f6f6261722200166970702d6174747269627574652d666964656c69747900010102210006636f706965730004000000144400057369646573001374776f2d73696465642d6c6f6e672d656467650325215044462e2e2e",
+    "0101040b0000000101470012617474726962757465732d6368617273657400057574662d3848001b617474726962757465732d6e61747572616c2d6c616e67756167650005656e2d757341000e7374617475732d6d657373616765002f636c69656e742d6572726f722d617474726962757465732d6f722d76616c7565732d6e6f742d737570706f7274656405210006636f706965730004000000141000057369646573000003",
     "hex"
   );
   const message = decode(data);
   expect(message).toStrictEqual({
     type: "IppMessage",
-    versionNumber: { minor: 0x01, major: 0x01 },
-    operationIdOrStatusCode: 0x0002,
+    versionNumber: { major: 0x01, minor: 0x01 },
+    operationIdOrStatusCode: 0x040b,
     requestId: 0x00000001,
     attributeGroup: [
       {
@@ -44,38 +44,14 @@ test("Print-Job Request", () => {
             type: "Attribute",
             attributeWithOneValue: {
               type: "AttributeWithOneValue",
-              valueTag: 0x45,
-              nameLength: 0x000b,
-              name: "printer-uri",
-              valueLength: 0x002c,
+              valueTag: 0x41,
+              nameLength: 0x000e,
+              name: "status-message",
+              valueLength: 0x002f,
               value: Buffer.from(
-                "ipp://printer.example.com/ipp/print/pinetree",
+                "client-error-attributes-or-values-not-supported",
                 "utf8"
               )
-            },
-            additionalValue: []
-          },
-          {
-            type: "Attribute",
-            attributeWithOneValue: {
-              type: "AttributeWithOneValue",
-              valueTag: 0x42,
-              nameLength: 0x0008,
-              name: "job-name",
-              valueLength: 0x0006,
-              value: Buffer.from("foobar", "utf8")
-            },
-            additionalValue: []
-          },
-          {
-            type: "Attribute",
-            attributeWithOneValue: {
-              type: "AttributeWithOneValue",
-              valueTag: 0x22,
-              nameLength: 0x0016,
-              name: "ipp-attribute-fidelity",
-              valueLength: 0x0001,
-              value: Buffer.from([0x01])
             },
             additionalValue: []
           }
@@ -83,7 +59,7 @@ test("Print-Job Request", () => {
       },
       {
         type: "AttributeGroup",
-        beginAttributeGroupTag: 0x02,
+        beginAttributeGroupTag: 0x05,
         attribute: [
           {
             type: "Attribute",
@@ -101,11 +77,11 @@ test("Print-Job Request", () => {
             type: "Attribute",
             attributeWithOneValue: {
               type: "AttributeWithOneValue",
-              valueTag: 0x44,
+              valueTag: 0x10,
               nameLength: 0x0005,
               name: "sides",
-              valueLength: 0x0013,
-              value: Buffer.from("two-sided-long-edge", "utf8")
+              valueLength: 0x0000,
+              value: Buffer.from("", "utf8")
             },
             additionalValue: []
           }
@@ -113,6 +89,6 @@ test("Print-Job Request", () => {
       }
     ],
     endOfAttributesTag: 0x03,
-    data: Buffer.from("%!PDF...")
+    data: Buffer.from([])
   });
 });

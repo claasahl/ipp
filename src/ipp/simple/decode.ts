@@ -1,5 +1,5 @@
-import decodeRaw from "../decode";
-import * as types from "../types";
+import decodeRaw from "../low-level/decode";
+import * as types from "../low-level/types";
 import {
   Message,
   Attribute,
