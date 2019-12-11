@@ -16,30 +16,33 @@ test("Print-Job Response (Failure)", () => {
         attributes: [
           {
             name: "attributes-charset",
-            value: {
-              valueTag: 0x47,
-              value: Buffer.from("utf-8", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x47,
+                value: Buffer.from("utf-8", "utf8")
+              }
+            ]
           },
           {
             name: "attributes-natural-language",
-            value: {
-              valueTag: 0x48,
-              value: Buffer.from("en-us", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x48,
+                value: Buffer.from("en-us", "utf8")
+              }
+            ]
           },
           {
             name: "status-message",
-            value: {
-              valueTag: 0x41,
-              value: Buffer.from(
-                "client-error-attributes-or-values-not-supported",
-                "utf8"
-              )
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x41,
+                value: Buffer.from(
+                  "client-error-attributes-or-values-not-supported",
+                  "utf8"
+                )
+              }
+            ]
           }
         ]
       },
@@ -48,19 +51,21 @@ test("Print-Job Response (Failure)", () => {
         attributes: [
           {
             name: "copies",
-            value: {
-              valueTag: 0x21,
-              value: Buffer.from([0x00, 0x00, 0x00, 0x14])
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x21,
+                value: Buffer.from([0x00, 0x00, 0x00, 0x14])
+              }
+            ]
           },
           {
             name: "sides",
-            value: {
-              valueTag: 0x10,
-              value: Buffer.from("", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x10,
+                value: Buffer.from("", "utf8")
+              }
+            ]
           }
         ]
       }

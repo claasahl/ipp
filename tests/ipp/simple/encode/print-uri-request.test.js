@@ -11,46 +11,51 @@ test("Print-URI Request", () => {
         attributes: [
           {
             name: "attributes-charset",
-            value: {
-              valueTag: 0x47,
-              value: Buffer.from("utf-8", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x47,
+                value: Buffer.from("utf-8", "utf8")
+              }
+            ]
           },
           {
             name: "attributes-natural-language",
-            value: {
-              valueTag: 0x48,
-              value: Buffer.from("en-us", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x48,
+                value: Buffer.from("en-us", "utf8")
+              }
+            ]
           },
           {
             name: "printer-uri",
-            value: {
-              valueTag: 0x45,
-              value: Buffer.from(
-                "ipp://printer.example.com/ipp/print/pinetree",
-                "utf8"
-              )
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x45,
+                value: Buffer.from(
+                  "ipp://printer.example.com/ipp/print/pinetree",
+                  "utf8"
+                )
+              }
+            ]
           },
           {
             name: "document-uri",
-            value: {
-              valueTag: 0x45,
-              value: Buffer.from("ftp://foo.example.com/foo", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x45,
+                value: Buffer.from("ftp://foo.example.com/foo", "utf8")
+              }
+            ]
           },
           {
             name: "job-name",
-            value: {
-              valueTag: 0x42,
-              value: Buffer.from("foobar", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x42,
+                value: Buffer.from("foobar", "utf8")
+              }
+            ]
           }
         ]
       },
@@ -59,11 +64,12 @@ test("Print-URI Request", () => {
         attributes: [
           {
             name: "copies",
-            value: {
-              valueTag: 0x21,
-              value: Buffer.from([0x00, 0x00, 0x00, 0x01])
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x21,
+                value: Buffer.from([0x00, 0x00, 0x00, 0x01])
+              }
+            ]
           }
         ]
       }

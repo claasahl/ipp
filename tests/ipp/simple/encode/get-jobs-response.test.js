@@ -11,27 +11,30 @@ test("Get-Jobs Response", () => {
         attributes: [
           {
             name: "attributes-charset",
-            value: {
-              valueTag: 0x47,
-              value: Buffer.from("utf-8", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x47,
+                value: Buffer.from("utf-8", "utf8")
+              }
+            ]
           },
           {
             name: "attributes-natural-language",
-            value: {
-              valueTag: 0x48,
-              value: Buffer.from("en-us", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x48,
+                value: Buffer.from("en-us", "utf8")
+              }
+            ]
           },
           {
             name: "status-message",
-            value: {
-              valueTag: 0x41,
-              value: Buffer.from("successful-ok", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x41,
+                value: Buffer.from("successful-ok", "utf8")
+              }
+            ]
           }
         ]
       },
@@ -40,24 +43,26 @@ test("Get-Jobs Response", () => {
         attributes: [
           {
             name: "job-id",
-            value: {
-              valueTag: 0x21,
-              value: Buffer.from([0, 0, 0, 147])
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x21,
+                value: Buffer.from([0, 0, 0, 147])
+              }
+            ]
           },
           {
             name: "job-name",
-            value: {
-              valueTag: 0x36,
-              value: Buffer.concat([
-                Buffer.from([0x00, 0x05]),
-                Buffer.from("fr-ca", "utf8"),
-                Buffer.from([0x00, 0x03]),
-                Buffer.from("fou", "utf8")
-              ])
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x36,
+                value: Buffer.concat([
+                  Buffer.from([0x00, 0x05]),
+                  Buffer.from("fr-ca", "utf8"),
+                  Buffer.from([0x00, 0x03]),
+                  Buffer.from("fou", "utf8")
+                ])
+              }
+            ]
           }
         ]
       },
@@ -70,24 +75,26 @@ test("Get-Jobs Response", () => {
         attributes: [
           {
             name: "job-id",
-            value: {
-              valueTag: 0x21,
-              value: Buffer.from([0, 0, 0, 148])
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x21,
+                value: Buffer.from([0, 0, 0, 148])
+              }
+            ]
           },
           {
             name: "job-name",
-            value: {
-              valueTag: 0x36,
-              value: Buffer.concat([
-                Buffer.from([0x00, 0x05]),
-                Buffer.from("de-CH", "utf8"),
-                Buffer.from([0x00, 0x09]),
-                Buffer.from("isch guet", "utf8")
-              ])
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x36,
+                value: Buffer.concat([
+                  Buffer.from([0x00, 0x05]),
+                  Buffer.from("de-CH", "utf8"),
+                  Buffer.from([0x00, 0x09]),
+                  Buffer.from("isch guet", "utf8")
+                ])
+              }
+            ]
           }
         ]
       }

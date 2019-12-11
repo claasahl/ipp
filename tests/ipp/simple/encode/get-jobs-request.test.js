@@ -11,46 +11,50 @@ test("Get-Jobs Request", () => {
         attributes: [
           {
             name: "attributes-charset",
-            value: {
-              valueTag: 0x47,
-              value: Buffer.from("utf-8", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x47,
+                value: Buffer.from("utf-8", "utf8")
+              }
+            ]
           },
           {
             name: "attributes-natural-language",
-            value: {
-              valueTag: 0x48,
-              value: Buffer.from("en-us", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x48,
+                value: Buffer.from("en-us", "utf8")
+              }
+            ]
           },
           {
             name: "printer-uri",
-            value: {
-              valueTag: 0x45,
-              value: Buffer.from(
-                "ipp://printer.example.com/ipp/print/pinetree",
-                "utf8"
-              )
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x45,
+                value: Buffer.from(
+                  "ipp://printer.example.com/ipp/print/pinetree",
+                  "utf8"
+                )
+              }
+            ]
           },
           {
             name: "limit",
-            value: {
-              valueTag: 0x21,
-              value: Buffer.from([0x00, 0x00, 0x00, 0x32])
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x21,
+                value: Buffer.from([0x00, 0x00, 0x00, 0x32])
+              }
+            ]
           },
           {
             name: "requested-attributes",
-            value: {
-              valueTag: 0x44,
-              value: Buffer.from("job-id", "utf8")
-            },
-            additionalValues: [
+            values: [
+              {
+                valueTag: 0x44,
+                value: Buffer.from("job-id", "utf8")
+              },
               {
                 valueTag: 0x44,
                 value: Buffer.from("job-name", "utf8")

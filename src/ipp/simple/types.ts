@@ -17,8 +17,7 @@ export interface AttributeGroup {
 
 export interface Attribute {
   name: string;
-  value: Value;
-  additionalValues: Value[];
+  values: Value[];
 }
 
 export interface Value {

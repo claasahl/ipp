@@ -16,30 +16,33 @@ test("Create-Job Request", () => {
         attributes: [
           {
             name: "attributes-charset",
-            value: {
-              valueTag: 0x47,
-              value: Buffer.from("utf-8", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x47,
+                value: Buffer.from("utf-8", "utf8")
+              }
+            ]
           },
           {
             name: "attributes-natural-language",
-            value: {
-              valueTag: 0x48,
-              value: Buffer.from("en-us", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x48,
+                value: Buffer.from("en-us", "utf8")
+              }
+            ]
           },
           {
             name: "printer-uri",
-            value: {
-              valueTag: 0x45,
-              value: Buffer.from(
-                "ipp://printer.example.com/ipp/print/pinetree",
-                "utf8"
-              )
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x45,
+                value: Buffer.from(
+                  "ipp://printer.example.com/ipp/print/pinetree",
+                  "utf8"
+                )
+              }
+            ]
           }
         ]
       }

@@ -44,8 +44,9 @@ function attribute(attribute: types.Attribute): Attribute {
   const { name } = attribute.attributeWithOneValue;
   return {
     name,
-    value: value(attribute.attributeWithOneValue),
-    additionalValues: attribute.additionalValue.map(value)
+    values: [attribute.attributeWithOneValue, ...attribute.additionalValue].map(
+      value
+    )
   };
 }
 

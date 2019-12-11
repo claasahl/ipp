@@ -16,46 +16,51 @@ test("Print-Job Request", () => {
         attributes: [
           {
             name: "attributes-charset",
-            value: {
-              valueTag: 0x47,
-              value: Buffer.from("utf-8", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x47,
+                value: Buffer.from("utf-8", "utf8")
+              }
+            ]
           },
           {
             name: "attributes-natural-language",
-            value: {
-              valueTag: 0x48,
-              value: Buffer.from("en-us", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x48,
+                value: Buffer.from("en-us", "utf8")
+              }
+            ]
           },
           {
             name: "printer-uri",
-            value: {
-              valueTag: 0x45,
-              value: Buffer.from(
-                "ipp://printer.example.com/ipp/print/pinetree",
-                "utf8"
-              )
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x45,
+                value: Buffer.from(
+                  "ipp://printer.example.com/ipp/print/pinetree",
+                  "utf8"
+                )
+              }
+            ]
           },
           {
             name: "job-name",
-            value: {
-              valueTag: 0x42,
-              value: Buffer.from("foobar", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x42,
+                value: Buffer.from("foobar", "utf8")
+              }
+            ]
           },
           {
             name: "ipp-attribute-fidelity",
-            value: {
-              valueTag: 0x22,
-              value: Buffer.from([0x01])
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x22,
+                value: Buffer.from([0x01])
+              }
+            ]
           }
         ]
       },
@@ -64,19 +69,21 @@ test("Print-Job Request", () => {
         attributes: [
           {
             name: "copies",
-            value: {
-              valueTag: 0x21,
-              value: Buffer.from([0x00, 0x00, 0x00, 0x14])
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x21,
+                value: Buffer.from([0x00, 0x00, 0x00, 0x14])
+              }
+            ]
           },
           {
             name: "sides",
-            value: {
-              valueTag: 0x44,
-              value: Buffer.from("two-sided-long-edge", "utf8")
-            },
-            additionalValues: []
+            values: [
+              {
+                valueTag: 0x44,
+                value: Buffer.from("two-sided-long-edge", "utf8")
+              }
+            ]
           }
         ]
       }

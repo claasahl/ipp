@@ -34,11 +34,8 @@ function attributeGroup(attributeGroup: AttributeGroup): types.AttributeGroup {
   };
 }
 function attribute(attribute: Attribute): types.Attribute {
-  const {
-    name,
-    value: { value, valueTag },
-    additionalValues
-  } = attribute;
+  const { name, values } = attribute;
+  const [{ value, valueTag }, ...additionalValues] = values;
   return {
     type: "Attribute",
     attributeWithOneValue: {
