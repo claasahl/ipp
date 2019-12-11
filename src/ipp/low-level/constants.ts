@@ -12,7 +12,7 @@
  *
  * https://tools.ietf.org/html/rfc8010#section-3.5.1
  */
-enum BeginAttributeGroupTag {
+export enum BeginAttributeGroupTag {
   "operationAttributesTag" = 0x01,
   "jobAttributesTag" = 0x02,
   "endOfAttributesTag" = 0x03,
@@ -81,7 +81,7 @@ enum BeginAttributeGroupTag {
  *
  * https://tools.ietf.org/html/rfc8010#section-3.5.2
  */
-enum ValueTag {
+export enum ValueTag {
   // Out-of-Band Values
   "unsupported" = 0x10,
   "unknown" = 0x12,

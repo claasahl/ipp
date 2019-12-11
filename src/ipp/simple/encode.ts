@@ -1,6 +1,7 @@
 import encodeRaw from "../low-level/encode";
 import * as types from "../low-level/types";
 import { Message, Attribute, AttributeGroup } from "./types";
+import { BeginAttributeGroupTag } from "../low-level/constants";
 
 function message2(message: Message): types.IppMessage {
   const {
@@ -21,7 +22,7 @@ function message2(message: Message): types.IppMessage {
     operationIdOrStatusCode,
     requestId,
     attributeGroup: attributeGroups.map(attributeGroup),
-    endOfAttributesTag: 0x03,
+    endOfAttributesTag: BeginAttributeGroupTag.endOfAttributesTag,
     data
   };
 }
