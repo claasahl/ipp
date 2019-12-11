@@ -1,0 +1,66 @@
+import encodeRaw from "../encode";
+import * as types from "../types";
+import { Message, Attribute, AttributeGroup } from "./types";
+
+function message2(message: Message): types.IppMessage {
+  const {
+    version,
+    requestId,
+    operationIdOrStatusCode,
+    attributeGroups,
+    data
+  } = message;
+  const major = version === "2.0" ? 2 : 1;
+  const minor = version === "1.1" ? 1 : 0;
+  return {
+    type: "IppMessage",
+    versionNumber: {
+      major,
+      minor
+    },
+    operationIdOrStatusCode,
+    requestId,
+    attributeGroup: attributeGroups.map(attributeGroup),
+    endOfAttributesTag: 0x03,
+    data
+  };
+}
+function attributeGroup(attributeGroup: AttributeGroup): types.AttributeGroup {
+  const { groupTag, attributes } = attributeGroup;
+  return {
+    type: "AttributeGroup",
+    beginAttributeGroupTag: groupTag,
+    attribute: attributes.map(attribute)
+  };
+}
+function attribute(attribute: Attribute): types.Attribute {
+  const {
+    name,
+    value: { value, valueTag },
+    additionalValues
+  } = attribute;
+  return {
+    type: "Attribute",
+    attributeWithOneValue: {
+      type: "AttributeWithOneValue",
+      valueTag,
+      nameLength: name.length,
+      name: name,
+      valueLength: value.length,
+      value: value
+    },
+    additionalValue: additionalValues.map(({ valueTag, value }) => ({
+      type: "AdditionalValue",
+      valueTag,
+      nameLength: 0,
+      valueLength: value.length,
+      value
+    }))
+  };
+}
+
+function encode(message: Message): Buffer {
+  const ippMessage = message2(message);
+  return encodeRaw(ippMessage);
+}
+export default encode;
