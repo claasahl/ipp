@@ -19,15 +19,15 @@ export class TextWithoutLanguageValue implements Value {
     return this._text;
   }
   set text(value: string) {
-    this._value = Buffer.from(value, "utf8");
     this._text = value;
+    this._value = Buffer.from(value, "utf8");
   }
   get value() {
     return this._value;
   }
   set value(value: Buffer) {
-    this._value = value;
     this._text = value.toString("utf8");
+    this._value = value;
   }
   public valueTag = ValueTag.textWithoutLanguage;
 }
@@ -50,15 +50,15 @@ export class NameWithoutLanguageValue implements Value {
     return this._name;
   }
   set name(value: string) {
-    this._value = Buffer.from(value, "utf8");
     this._name = value;
+    this._value = Buffer.from(value, "utf8");
   }
   get value() {
     return this._value;
   }
   set value(value: Buffer) {
-    this._value = value;
     this._name = value.toString("utf8");
+    this._value = value;
   }
   public valueTag = ValueTag.nameWithoutLanguage;
 }
@@ -82,11 +82,11 @@ export class NameWithoutLanguageValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class TextWithLanguageValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private _value: Buffer = Buffer.from([0, 0, 0, 0]);
   private _language: string = "";
   private _text: string = "";
   get language() {
-    return this._text;
+    return this._language;
   }
   set language(value: string) {
     const languageLen = value.length;
@@ -119,15 +119,15 @@ export class TextWithLanguageValue implements Value {
     return this._value;
   }
   set value(value: Buffer) {
-    const languageLen = this._value.readIntBE(0, 2);
-    const text = this._value.slice(2, 2 + languageLen).toString("utf8");
-    const textLen = this._value.readIntBE(2 + languageLen, 2);
-    const language = this._value
-      .slice(2 + languageLen, 2 + textLen)
+    const languageLen = value.readIntBE(0, 2);
+    const language = value.slice(2, 2 + languageLen).toString("utf8");
+    const textLen = value.readIntBE(2 + languageLen, 2);
+    const text = value
+      .slice(4 + languageLen, 4 + languageLen + textLen)
       .toString("utf8");
 
-    this._text = text;
     this._language = language;
+    this._text = text;
     this._value = value;
   }
   public valueTag = ValueTag.textWithLanguage;
@@ -152,11 +152,11 @@ export class TextWithLanguageValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class NameWithLanguageValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private _value: Buffer = Buffer.from([0, 0, 0, 0]);
   private _language: string = "";
   private _name: string = "";
   get language() {
-    return this._name;
+    return this._language;
   }
   set language(value: string) {
     const languageLen = value.length;
@@ -189,18 +189,18 @@ export class NameWithLanguageValue implements Value {
     return this._value;
   }
   set value(value: Buffer) {
-    const languageLen = this._value.readIntBE(0, 2);
-    const name = this._value.slice(2, 2 + languageLen).toString("utf8");
-    const nameLen = this._value.readIntBE(2 + languageLen, 2);
-    const language = this._value
-      .slice(2 + languageLen, 2 + nameLen)
+    const languageLen = value.readIntBE(0, 2);
+    const language = value.slice(2, 2 + languageLen).toString("utf8");
+    const nameLen = value.readIntBE(2 + languageLen, 2);
+    const name = value
+      .slice(4 + languageLen, 4 + languageLen + nameLen)
       .toString("utf8");
 
-    this._name = name;
     this._language = language;
+    this._name = name;
     this._value = value;
   }
-  public valueTag = ValueTag.textWithLanguage;
+  public valueTag = ValueTag.nameWithLanguage;
 }
 
 /**
@@ -218,7 +218,23 @@ export class NameWithLanguageValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class CharsetValue implements Value {
-  /*string*/
+  private _value: Buffer = Buffer.from([]);
+  private _charset: string = "";
+  get charset() {
+    return this._charset;
+  }
+  set charset(value: string) {
+    this._charset = value;
+    this._value = Buffer.from(value, "utf8");
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    this._charset = value.toString("utf8");
+    this._value = value;
+  }
+  public valueTag = ValueTag.charset;
 }
 
 /**
@@ -236,7 +252,23 @@ export class CharsetValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class NaturalLanguageValue implements Value {
-  /*string*/
+  private _value: Buffer = Buffer.from([]);
+  private _language: string = "";
+  get language() {
+    return this._language;
+  }
+  set language(value: string) {
+    this._language = value;
+    this._value = Buffer.from(value, "utf8");
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    this._language = value.toString("utf8");
+    this._value = value;
+  }
+  public valueTag = ValueTag.naturalLanguage;
 }
 
 /**
@@ -254,7 +286,23 @@ export class NaturalLanguageValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class MimeMediaTypeValue implements Value {
-  /*string*/
+  private _value: Buffer = Buffer.from([]);
+  private _mimeMediaType: string = "";
+  get mimeMediaType() {
+    return this._mimeMediaType;
+  }
+  set mimeMediaType(value: string) {
+    this._mimeMediaType = value;
+    this._value = Buffer.from(value, "utf8");
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    this._mimeMediaType = value.toString("utf8");
+    this._value = value;
+  }
+  public valueTag = ValueTag.mimeMediaType;
 }
 /**
  * +----------------------+--------------------------------------------+
@@ -271,7 +319,23 @@ export class MimeMediaTypeValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class KeywordValue implements Value {
-  /*string*/
+  private _value: Buffer = Buffer.from([]);
+  private _keyword: string = "";
+  get keyword() {
+    return this._keyword;
+  }
+  set keyword(value: string) {
+    this._keyword = value;
+    this._value = Buffer.from(value, "utf8");
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    this._keyword = value.toString("utf8");
+    this._value = value;
+  }
+  public valueTag = ValueTag.keyword;
 }
 
 /**
@@ -289,7 +353,23 @@ export class KeywordValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class UriValue implements Value {
-  /*string*/
+  private _value: Buffer = Buffer.from([]);
+  private _uri: string = "";
+  get uri() {
+    return this._uri;
+  }
+  set uri(value: string) {
+    this._uri = value;
+    this._value = Buffer.from(value, "utf8");
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    this._uri = value.toString("utf8");
+    this._value = value;
+  }
+  public valueTag = ValueTag.uri;
 }
 
 /**
@@ -307,7 +387,23 @@ export class UriValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class UriSchemeValue implements Value {
-  /*string*/
+  private _value: Buffer = Buffer.from([]);
+  private _uriScheme: string = "";
+  get uriScheme() {
+    return this._uriScheme;
+  }
+  set uriScheme(value: string) {
+    this._uriScheme = value;
+    this._value = Buffer.from(value, "utf8");
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    this._uriScheme = value.toString("utf8");
+    this._value = value;
+  }
+  public valueTag = ValueTag.uriScheme;
 }
 
 /**
@@ -322,7 +418,25 @@ export class UriSchemeValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class BooleanValue implements Value {
-  //= 1 | 0
+  private _value: Buffer = Buffer.from([0]);
+  private _flag: boolean = false;
+  get flag() {
+    return this._flag;
+  }
+  set flag(value: boolean) {
+    this._flag = value;
+    this._value = Buffer.from([value ? 1 : 0]);
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    const flag = value.readIntBE(0, 1) === 1;
+
+    this._flag = flag;
+    this._value = value;
+  }
+  public valueTag = ValueTag.boolean;
 }
 
 /**
@@ -336,7 +450,28 @@ export class BooleanValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class IntegerValue implements Value {
-  //= number
+  private _value: Buffer = Buffer.from([0, 0, 0, 0]);
+  private _integer: number = 0;
+  get integer() {
+    return this._integer;
+  }
+  set integer(value: number) {
+    const buffer = Buffer.alloc(4);
+    buffer.writeIntBE(value, 0, 4);
+
+    this._integer = value;
+    this._value = buffer;
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    const integer = value.readIntBE(0, 4);
+
+    this._integer = integer;
+    this._value = value;
+  }
+  public valueTag = ValueTag.integer;
 }
 
 /**
@@ -350,7 +485,29 @@ export class IntegerValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class EnumValue implements Value {
-  // = number
+  // TODO make generic?
+  private _value: Buffer = Buffer.from([0, 0, 0, 0]);
+  private _enum: number = 0;
+  get enum() {
+    return this._enum;
+  }
+  set enum(value: number) {
+    const buffer = Buffer.alloc(4);
+    buffer.writeIntBE(value, 0, 4);
+
+    this._enum = value;
+    this._value = buffer;
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    const integer = value.readIntBE(0, 4);
+
+    this._enum = integer;
+    this._value = value;
+  }
+  public valueTag = ValueTag.enum;
 }
 
 /**
@@ -365,7 +522,25 @@ export class EnumValue implements Value {
  *
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
-export class DateTimeValue implements Value {}
+// export class DateTimeValue implements Value {
+//   private _value: Buffer = Buffer.from([0,0,0,0,0,0,0,0,0,0,0]);
+//   private _dateTime: Date = new Date(0);
+//   get dateTime() {
+//     return this._dateTime;
+//   }
+//   set dateTime(value: Date) {
+//     this._dateTime = value;
+//     this._value = Buffer.from(value, "utf8");
+//   }
+//   get value() {
+//     return this._value;
+//   }
+//   set value(value: Buffer) {
+//     this._dateTime = value.toString("utf8");
+//     this._value = value;
+//   }
+//   public valueTag = ValueTag.dateTime;
+// }
 
 /**
  * +----------------------+--------------------------------------------+
@@ -385,9 +560,61 @@ export class DateTimeValue implements Value {}
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class ResolutionValue implements Value {
-  crossFeed: number;
-  feed: number;
-  units: number;
+  // TODO make units an enum
+  private _value: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  private _crossFeed: number = 0;
+  private _feed: number = 0;
+  private _units: number = 0;
+  get crossFeed() {
+    return this._crossFeed;
+  }
+  set crossFeed(value: number) {
+    const buffer = Buffer.alloc(9);
+    buffer.writeIntBE(value, 0, 4);
+    buffer.writeIntBE(this._feed, 4, 4);
+    buffer.writeIntBE(this._units, 8, 1);
+
+    this._crossFeed = value;
+    this._value = buffer;
+  }
+  get feed() {
+    return this._feed;
+  }
+  set feed(value: number) {
+    const buffer = Buffer.alloc(9);
+    buffer.writeIntBE(this._crossFeed, 0, 4);
+    buffer.writeIntBE(value, 4, 4);
+    buffer.writeIntBE(this._units, 8, 1);
+
+    this._feed = value;
+    this._value = buffer;
+  }
+  get units() {
+    return this._units;
+  }
+  set units(value: number) {
+    const buffer = Buffer.alloc(9);
+    buffer.writeIntBE(this._crossFeed, 0, 4);
+    buffer.writeIntBE(this._feed, 4, 4);
+    buffer.writeIntBE(value, 8, 1);
+
+    this._units = value;
+    this._value = buffer;
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    const lowerBound = value.readIntBE(0, 4);
+    const upperBound = value.readIntBE(4, 4);
+    const units = value.readIntBE(8, 1);
+
+    this._crossFeed = lowerBound;
+    this._feed = upperBound;
+    this._units = units;
+    this._value = value;
+  }
+  public valueTag = ValueTag.resolution;
 }
 
 /**
@@ -404,8 +631,43 @@ export class ResolutionValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class RangeOfIntegerValue implements Value {
-  lowerBound: number;
-  upperBound: number;
+  private _value: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0]);
+  private _lowerBound: number = 0;
+  private _upperBound: number = 0;
+  get lowerBound() {
+    return this._lowerBound;
+  }
+  set lowerBound(value: number) {
+    const buffer = Buffer.alloc(8);
+    buffer.writeIntBE(value, 0, 4);
+    buffer.writeIntBE(this._upperBound, 4, 4);
+
+    this._lowerBound = value;
+    this._value = buffer;
+  }
+  get upperBound() {
+    return this._upperBound;
+  }
+  set upperBound(value: number) {
+    const buffer = Buffer.alloc(8);
+    buffer.writeIntBE(this._lowerBound, 0, 4);
+    buffer.writeIntBE(value, 4, 4);
+
+    this._upperBound = value;
+    this._value = buffer;
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    const lowerBound = value.readIntBE(0, 4);
+    const upperBound = value.readIntBE(4, 4);
+
+    this._lowerBound = lowerBound;
+    this._upperBound = upperBound;
+    this._value = value;
+  }
+  public valueTag = ValueTag.rangeOfInteger;
 }
 
 /**
@@ -421,7 +683,22 @@ export class RangeOfIntegerValue implements Value {
  *
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
-export class SetOfValue implements Value {}
+//export class SetOfValue implements Value {}
+
+/**
+ * +----------------------+--------------------------------------------+
+ * | Syntax of Attribute  | Encoding                                   |
+ * | Value                |                                            |
+ * +----------------------+--------------------------------------------+
+ * | octetString          | OCTET-STRING                               |
+ * +----------------------+--------------------------------------------+
+ *
+ * https://tools.ietf.org/html/rfc8010#section-3.9
+ */
+export class OctetStringValue implements Value {
+  public value: Buffer = Buffer.from([]);
+  public valueTag = ValueTag.octetString;
+}
 
 /**
  * +----------------------+--------------------------------------------+
@@ -433,4 +710,4 @@ export class SetOfValue implements Value {}
  *
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
-export class CollectionValue implements Value {}
+//export class CollectionValue implements Value {}
