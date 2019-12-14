@@ -1,3 +1,5 @@
+import printf from "printf";
+
 import { Value } from "./types";
 import { ValueTag } from "../low-level/constants";
 
@@ -521,26 +523,79 @@ export class EnumValue implements Value {
  * +----------------------+--------------------------------------------+
  *
  * https://tools.ietf.org/html/rfc8010#section-3.9
+ *
+ * field  octets  contents                  range
+ *  -----  ------  --------                  -----
+ *   1      1-2   year*                     0..65536
+ *   2       3    month                     1..12
+ *   3       4    day                       1..31
+ *   4       5    hour                      0..23
+ *   5       6    minutes                   0..59
+ *   6       7    seconds                   0..60
+ *                (use 60 for leap-second)
+ *   7       8    deci-seconds              0..9
+ *   8       9    direction from UTC        '+' / '-'
+ *   9      10    hours from UTC*           0..13
+ *  10      11    minutes from UTC          0..59
+ *
+ * https://tools.ietf.org/html/rfc2579#section-2
  */
-// export class DateTimeValue implements Value {
-//   private _value: Buffer = Buffer.from([0,0,0,0,0,0,0,0,0,0,0]);
-//   private _dateTime: Date = new Date(0);
-//   get dateTime() {
-//     return this._dateTime;
-//   }
-//   set dateTime(value: Date) {
-//     this._dateTime = value;
-//     this._value = Buffer.from(value, "utf8");
-//   }
-//   get value() {
-//     return this._value;
-//   }
-//   set value(value: Buffer) {
-//     this._dateTime = value.toString("utf8");
-//     this._value = value;
-//   }
-//   public valueTag = ValueTag.dateTime;
-// }
+export class DateTimeValue implements Value {
+  private _value: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  private _dateTime: Date = new Date(0);
+  get dateTime() {
+    return this._dateTime;
+  }
+  set dateTime(value: Date) {
+    const buffer = Buffer.alloc(11);
+    buffer.writeIntBE(value.getUTCFullYear(), 0, 2);
+    buffer.writeIntBE(value.getUTCMonth() + 1, 2, 1);
+    buffer.writeIntBE(value.getUTCDate(), 3, 1);
+    buffer.writeIntBE(value.getUTCHours(), 4, 1);
+    buffer.writeIntBE(value.getUTCMinutes(), 5, 1);
+    buffer.writeIntBE(value.getUTCSeconds(), 6, 1);
+    buffer.writeIntBE(Math.floor(value.getUTCMilliseconds() / 100), 7, 1);
+    buffer.write("+", 8, 9, "utf8");
+    buffer.writeIntBE(0, 9, 1);
+    buffer.writeIntBE(0, 10, 1);
+
+    this._dateTime = value;
+    this._value = buffer;
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    const year = value.readIntBE(0, 2);
+    const month = value.readIntBE(2, 1);
+    const day = value.readIntBE(3, 1);
+    const hour = value.readIntBE(4, 1);
+    const minutes = value.readIntBE(5, 1);
+    const seconds = value.readIntBE(6, 1);
+    const deciSeconds = value.readIntBE(7, 1);
+    const directionFromUtc = value.slice(8, 9).toString("utf8");
+    const hoursFromUtc = value.readIntBE(9, 1);
+    const minutesFromUtc = value.readIntBE(10, 1);
+    const t = printf(
+      "%04d-%02d-%02dT%02d:%02d:%02d.%03d%s%02d%02d",
+      year,
+      month,
+      day,
+      hour,
+      minutes,
+      seconds,
+      deciSeconds * 100,
+      directionFromUtc,
+      hoursFromUtc,
+      minutesFromUtc
+    );
+    const dateTime = new Date(t);
+
+    this._dateTime = dateTime;
+    this._value = value;
+  }
+  public valueTag = ValueTag.dateTime;
+}
 
 /**
  * +----------------------+--------------------------------------------+
