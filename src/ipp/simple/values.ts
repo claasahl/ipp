@@ -4,6 +4,78 @@ import { Value } from "./types";
 import { ValueTag } from "../low-level/constants";
 
 /**
+ *  +-----------------+-------------+
+ *  | Tag Value (Hex) | Meaning     |
+ *  +-----------------+-------------+
+ *  | 0x10            | unsupported |
+ *  +-----------------+-------------+
+ *
+ * https://tools.ietf.org/html/rfc8010#section-3.5.2
+ */
+export class UnsupportedValue implements Value {
+  get value() {
+    return Buffer.alloc(0);
+  }
+  set value(_value: Buffer) {
+    throw new Error("value for 'unsupported' values must not be changed");
+  }
+  get valueTag() {
+    return ValueTag.unsupported;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'unsupported' values must not be changed");
+  }
+}
+
+/**
+ *  +-----------------+-------------+
+ *  | Tag Value (Hex) | Meaning     |
+ *  +-----------------+-------------+
+ *  | 0x12            | unknown     |
+ *  +-----------------+-------------+
+ *
+ * https://tools.ietf.org/html/rfc8010#section-3.5.2
+ */
+export class UnknownValue implements Value {
+  get value() {
+    return Buffer.alloc(0);
+  }
+  set value(_value: Buffer) {
+    throw new Error("value for 'unknown' values must not be changed");
+  }
+  get valueTag() {
+    return ValueTag.unknown;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'unknown' values must not be changed");
+  }
+}
+
+/**
+ *  +-----------------+-------------+
+ *  | Tag Value (Hex) | Meaning     |
+ *  +-----------------+-------------+
+ *  | 0x13            | no-value    |
+ *  +-----------------+-------------+
+ *
+ * https://tools.ietf.org/html/rfc8010#section-3.5.2
+ */
+export class NoValue implements Value {
+  get value() {
+    return Buffer.alloc(0);
+  }
+  set value(_value: Buffer) {
+    throw new Error("value for 'no-value' values must not be changed");
+  }
+  get valueTag() {
+    return ValueTag.noValue;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'no-value' values must not be changed");
+  }
+}
+
+/**
  * +----------------------+--------------------------------------------+
  * | Syntax of Attribute  | Encoding                                   |
  * | Value                |                                            |
@@ -730,21 +802,6 @@ export class RangeOfIntegerValue implements Value {
  * | Syntax of Attribute  | Encoding                                   |
  * | Value                |                                            |
  * +----------------------+--------------------------------------------+
- * | 1setOf X             | Encoding according to the rules for an     |
- * |                      | attribute with more than one value.  Each  |
- * |                      | value X is encoded according to the rules  |
- * |                      | for encoding its type.                     |
- * +----------------------+--------------------------------------------+
- *
- * https://tools.ietf.org/html/rfc8010#section-3.9
- */
-//export class SetOfValue implements Value {}
-
-/**
- * +----------------------+--------------------------------------------+
- * | Syntax of Attribute  | Encoding                                   |
- * | Value                |                                            |
- * +----------------------+--------------------------------------------+
  * | octetString          | OCTET-STRING                               |
  * +----------------------+--------------------------------------------+
  *
@@ -754,15 +811,3 @@ export class OctetStringValue implements Value {
   public value: Buffer = Buffer.from([]);
   public valueTag = ValueTag.octetString;
 }
-
-/**
- * +----------------------+--------------------------------------------+
- * | Syntax of Attribute  | Encoding                                   |
- * | Value                |                                            |
- * +----------------------+--------------------------------------------+
- * | collection           | Encoding as defined in Section 3.1.6.      |
- * +----------------------+--------------------------------------------+
- *
- * https://tools.ietf.org/html/rfc8010#section-3.9
- */
-//export class CollectionValue implements Value {}
