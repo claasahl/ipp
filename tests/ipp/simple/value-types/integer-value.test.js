@@ -1,4 +1,4 @@
-const ValueType = require("../../../build/ipp/simple/value-types").IntegerValue;
+const ValueType = require("../../../../build/ipp/simple/values").IntegerValue;
 
 test("encode", () => {
   const data = new ValueType();

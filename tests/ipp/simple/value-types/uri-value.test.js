@@ -1,4 +1,4 @@
-const ValueType = require("../../../build/ipp/simple/value-types").UriValue;
+const ValueType = require("../../../../build/ipp/simple/values").UriValue;
 
 test("encode", () => {
   const data = new ValueType();

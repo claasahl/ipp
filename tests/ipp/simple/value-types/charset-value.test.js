@@ -1,4 +1,4 @@
-const ValueType = require("../../../build/ipp/simple/value-types").CharsetValue;
+const ValueType = require("../../../../build/ipp/simple/values").CharsetValue;
 
 test("encode", () => {
   const data = new ValueType();

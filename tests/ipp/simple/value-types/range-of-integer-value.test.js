@@ -1,4 +1,4 @@
-const ValueType = require("../../../build/ipp/simple/value-types")
+const ValueType = require("../../../../build/ipp/simple/values")
   .RangeOfIntegerValue;
 
 test("encode", () => {

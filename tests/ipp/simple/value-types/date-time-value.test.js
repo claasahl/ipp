@@ -1,5 +1,4 @@
-const ValueType = require("../../../build/ipp/simple/value-types")
-  .DateTimeValue;
+const ValueType = require("../../../../build/ipp/simple/values").DateTimeValue;
 
 test("encode", () => {
   const data = new ValueType();

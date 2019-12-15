@@ -1,9 +1,8 @@
-const ValueType = require("../../../build/ipp/simple/value-types")
-  .TextWithoutLanguageValue;
+const ValueType = require("../../../../build/ipp/simple/values").KeywordValue;
 
 test("encode", () => {
   const data = new ValueType();
-  data.text = "hello world";
+  data.keyword = "hello world";
   expect(data.value).toStrictEqual(
     Buffer.from("68656c6c6f20776f726c64", "hex")
   );
@@ -11,11 +10,11 @@ test("encode", () => {
 test("decode", () => {
   const data = new ValueType();
   data.value = Buffer.from("68656c6c6f20776f726c64", "hex");
-  expect(data.text).toBe("hello world");
+  expect(data.keyword).toBe("hello world");
 });
 test("default values", () => {
   const data = new ValueType();
-  expect(data.text).toBe("");
+  expect(data.keyword).toBe("");
   expect(data.value).toStrictEqual(Buffer.from([]));
-  expect(data.valueTag).toBe(0x41);
+  expect(data.valueTag).toBe(0x44);
 });

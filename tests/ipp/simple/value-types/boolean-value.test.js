@@ -1,4 +1,4 @@
-const ValueType = require("../../../build/ipp/simple/value-types").BooleanValue;
+const ValueType = require("../../../../build/ipp/simple/values").BooleanValue;
 
 test("encode", () => {
   const data = new ValueType();
