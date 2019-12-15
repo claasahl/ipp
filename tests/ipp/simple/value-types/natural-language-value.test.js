@@ -11,6 +11,10 @@ test("decode", () => {
   data.value = Buffer.from("656e", "hex");
   expect(data.language).toBe("en");
 });
+test("constant valueTag", () => {
+  const data = new ValueType();
+  expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);
+});
 test("default values", () => {
   const data = new ValueType();
   expect(data.language).toBe("");

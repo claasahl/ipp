@@ -15,6 +15,10 @@ test("decode", () => {
   expect(data.feed).toBe(42);
   expect(data.units).toBe(3);
 });
+test("constant valueTag", () => {
+  const data = new ValueType();
+  expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);
+});
 test("default values", () => {
   const data = new ValueType();
   expect(data.crossFeed).toBe(0);

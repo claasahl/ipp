@@ -103,7 +103,14 @@ export class TextWithoutLanguageValue implements Value {
     this._text = value.toString("utf8");
     this._value = value;
   }
-  public valueTag = ValueTag.textWithoutLanguage;
+  get valueTag() {
+    return ValueTag.textWithoutLanguage;
+  }
+  set valueTag(_value: number) {
+    throw new Error(
+      "valueTag for 'textWithoutLanguage' values must not be changed"
+    );
+  }
 }
 
 /**
@@ -134,7 +141,14 @@ export class NameWithoutLanguageValue implements Value {
     this._name = value.toString("utf8");
     this._value = value;
   }
-  public valueTag = ValueTag.nameWithoutLanguage;
+  get valueTag() {
+    return ValueTag.nameWithoutLanguage;
+  }
+  set valueTag(_value: number) {
+    throw new Error(
+      "valueTag for 'nameWithoutLanguage' values must not be changed"
+    );
+  }
 }
 
 /**
@@ -204,7 +218,14 @@ export class TextWithLanguageValue implements Value {
     this._text = text;
     this._value = value;
   }
-  public valueTag = ValueTag.textWithLanguage;
+  get valueTag() {
+    return ValueTag.textWithLanguage;
+  }
+  set valueTag(_value: number) {
+    throw new Error(
+      "valueTag for 'textWithLanguage' values must not be changed"
+    );
+  }
 }
 
 /**
@@ -274,7 +295,14 @@ export class NameWithLanguageValue implements Value {
     this._name = name;
     this._value = value;
   }
-  public valueTag = ValueTag.nameWithLanguage;
+  get valueTag() {
+    return ValueTag.nameWithLanguage;
+  }
+  set valueTag(_value: number) {
+    throw new Error(
+      "valueTag for 'nameWithLanguage' values must not be changed"
+    );
+  }
 }
 
 /**
@@ -308,7 +336,12 @@ export class CharsetValue implements Value {
     this._charset = value.toString("utf8");
     this._value = value;
   }
-  public valueTag = ValueTag.charset;
+  get valueTag() {
+    return ValueTag.charset;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'charset' values must not be changed");
+  }
 }
 
 /**
@@ -342,7 +375,14 @@ export class NaturalLanguageValue implements Value {
     this._language = value.toString("utf8");
     this._value = value;
   }
-  public valueTag = ValueTag.naturalLanguage;
+  get valueTag() {
+    return ValueTag.naturalLanguage;
+  }
+  set valueTag(_value: number) {
+    throw new Error(
+      "valueTag for 'naturalLanguage' values must not be changed"
+    );
+  }
 }
 
 /**
@@ -376,7 +416,12 @@ export class MimeMediaTypeValue implements Value {
     this._mimeMediaType = value.toString("utf8");
     this._value = value;
   }
-  public valueTag = ValueTag.mimeMediaType;
+  get valueTag() {
+    return ValueTag.mimeMediaType;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'mimeMediaType' values must not be changed");
+  }
 }
 /**
  * +----------------------+--------------------------------------------+
@@ -409,7 +454,12 @@ export class KeywordValue implements Value {
     this._keyword = value.toString("utf8");
     this._value = value;
   }
-  public valueTag = ValueTag.keyword;
+  get valueTag() {
+    return ValueTag.keyword;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'keyword' values must not be changed");
+  }
 }
 
 /**
@@ -443,7 +493,12 @@ export class UriValue implements Value {
     this._uri = value.toString("utf8");
     this._value = value;
   }
-  public valueTag = ValueTag.uri;
+  get valueTag() {
+    return ValueTag.uri;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'uri' values must not be changed");
+  }
 }
 
 /**
@@ -477,7 +532,12 @@ export class UriSchemeValue implements Value {
     this._uriScheme = value.toString("utf8");
     this._value = value;
   }
-  public valueTag = ValueTag.uriScheme;
+  get valueTag() {
+    return ValueTag.uriScheme;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'uriScheme' values must not be changed");
+  }
 }
 
 /**
@@ -510,7 +570,12 @@ export class BooleanValue implements Value {
     this._flag = flag;
     this._value = value;
   }
-  public valueTag = ValueTag.boolean;
+  get valueTag() {
+    return ValueTag.boolean;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'boolean' values must not be changed");
+  }
 }
 
 /**
@@ -545,7 +610,12 @@ export class IntegerValue implements Value {
     this._integer = integer;
     this._value = value;
   }
-  public valueTag = ValueTag.integer;
+  get valueTag() {
+    return ValueTag.integer;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'integer' values must not be changed");
+  }
 }
 
 /**
@@ -581,7 +651,12 @@ export class EnumValue implements Value {
     this._enum = integer;
     this._value = value;
   }
-  public valueTag = ValueTag.enum;
+  get valueTag() {
+    return ValueTag.enum;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'enum' values must not be changed");
+  }
 }
 
 /**
@@ -666,7 +741,12 @@ export class DateTimeValue implements Value {
     this._dateTime = dateTime;
     this._value = value;
   }
-  public valueTag = ValueTag.dateTime;
+  get valueTag() {
+    return ValueTag.dateTime;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'dateTime' values must not be changed");
+  }
 }
 
 /**
@@ -741,7 +821,12 @@ export class ResolutionValue implements Value {
     this._units = units;
     this._value = value;
   }
-  public valueTag = ValueTag.resolution;
+  get valueTag() {
+    return ValueTag.resolution;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'resolution' values must not be changed");
+  }
 }
 
 /**
@@ -794,7 +879,12 @@ export class RangeOfIntegerValue implements Value {
     this._upperBound = upperBound;
     this._value = value;
   }
-  public valueTag = ValueTag.rangeOfInteger;
+  get valueTag() {
+    return ValueTag.rangeOfInteger;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'rangeOfInteger' values must not be changed");
+  }
 }
 
 /**
@@ -809,5 +899,10 @@ export class RangeOfIntegerValue implements Value {
  */
 export class OctetStringValue implements Value {
   public value: Buffer = Buffer.from([]);
-  public valueTag = ValueTag.octetString;
+  get valueTag() {
+    return ValueTag.octetString;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'octetString' values must not be changed");
+  }
 }

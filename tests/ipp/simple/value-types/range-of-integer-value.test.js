@@ -13,6 +13,10 @@ test("decode", () => {
   expect(data.lowerBound).toBe(5);
   expect(data.upperBound).toBe(42);
 });
+test("constant valueTag", () => {
+  const data = new ValueType();
+  expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);
+});
 test("default values", () => {
   const data = new ValueType();
   expect(data.lowerBound).toBe(0);

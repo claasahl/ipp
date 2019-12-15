@@ -15,6 +15,10 @@ test("decode", () => {
   expect(data.language).toBe("en");
   expect(data.text).toBe("hello world");
 });
+test("constant valueTag", () => {
+  const data = new ValueType();
+  expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);
+});
 test("default values", () => {
   const data = new ValueType();
   expect(data.language).toBe("");

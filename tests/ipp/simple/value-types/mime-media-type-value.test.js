@@ -11,6 +11,10 @@ test("decode", () => {
   data.value = Buffer.from("746578742f706c61696e", "hex");
   expect(data.mimeMediaType).toBe("text/plain");
 });
+test("constant valueTag", () => {
+  const data = new ValueType();
+  expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);
+});
 test("default values", () => {
   const data = new ValueType();
   expect(data.mimeMediaType).toBe("");

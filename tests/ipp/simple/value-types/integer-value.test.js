@@ -10,6 +10,10 @@ test("decode", () => {
   data.value = Buffer.from("0000002a", "hex");
   expect(data.integer).toBe(42);
 });
+test("constant valueTag", () => {
+  const data = new ValueType();
+  expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);
+});
 test("default values", () => {
   const data = new ValueType();
   expect(data.integer).toBe(0);

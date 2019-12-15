@@ -12,6 +12,10 @@ test("decode", () => {
   data.value = Buffer.from("68656c6c6f20776f726c64", "hex");
   expect(data.keyword).toBe("hello world");
 });
+test("constant valueTag", () => {
+  const data = new ValueType();
+  expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);
+});
 test("default values", () => {
   const data = new ValueType();
   expect(data.keyword).toBe("");

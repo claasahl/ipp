@@ -12,6 +12,10 @@ test("decode", () => {
   data.value = Buffer.from("697070733a2f2f6c6f63616c686f7374", "hex");
   expect(data.uri).toBe("ipps://localhost");
 });
+test("constant valueTag", () => {
+  const data = new ValueType();
+  expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);
+});
 test("default values", () => {
   const data = new ValueType();
   expect(data.uri).toBe("");
