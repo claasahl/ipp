@@ -85,7 +85,7 @@ export enum ValueTag {
   // Out-of-Band Values
   "unsupported" = 0x10,
   "unknown" = 0x12,
-  "no-value" = 0x13,
+  "noValue" = 0x13,
   // Integer Tags
   "integer" = 0x21,
   "boolean" = 0x22,
