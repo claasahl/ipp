@@ -8,7 +8,7 @@ import {
   VersionNumber
 } from "./types";
 
-function message2(message: types.IppMessage): Message {
+function decodeMessage(message: types.IppMessage): Message {
   const { versionNumber, requestId, operationIdOrStatusCode, data } = message;
   let version: VersionNumber;
   switch (`${versionNumber.major}.${versionNumber.minor}`) {
@@ -60,6 +60,6 @@ function value(
 
 export function decode(message: Buffer): Message {
   const ippMessage = decodeRaw(message);
-  return message2(ippMessage);
+  return decodeMessage(ippMessage);
 }
 export default decode;

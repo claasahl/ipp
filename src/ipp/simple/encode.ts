@@ -3,7 +3,7 @@ import * as types from "../low-level/types";
 import { Message, Attribute, AttributeGroup } from "./types";
 import { BeginAttributeGroupTag } from "../low-level/constants";
 
-function message2(message: Message): types.IppMessage {
+function encodeMessage(message: Message): types.IppMessage {
   const {
     version,
     requestId,
@@ -58,7 +58,7 @@ function attribute(attribute: Attribute): types.Attribute {
 }
 
 export function encode(message: Message): Buffer {
-  const ippMessage = message2(message);
+  const ippMessage = encodeMessage(message);
   return encodeRaw(ippMessage);
 }
 export default encode;
