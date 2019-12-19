@@ -1,4 +1,5 @@
 import printf from "printf";
+import { types } from "util";
 
 import { Value } from "./types";
 import { ValueTag } from "../low-level/constants";
@@ -89,6 +90,16 @@ export class NoValue implements Value {
 export class TextWithoutLanguageValue implements Value {
   private _value: Buffer = Buffer.from([]);
   private _text: string = "";
+  constructor();
+  constructor(text: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string) {
+    if (typeof param1 === "string") {
+      this.text = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get text() {
     return this._text;
   }
@@ -127,6 +138,16 @@ export class TextWithoutLanguageValue implements Value {
 export class NameWithoutLanguageValue implements Value {
   private _value: Buffer = Buffer.from([]);
   private _name: string = "";
+  constructor();
+  constructor(name: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string) {
+    if (typeof param1 === "string") {
+      this.name = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get name() {
     return this._name;
   }
@@ -173,6 +194,17 @@ export class TextWithLanguageValue implements Value {
   private _value: Buffer = Buffer.from([0, 0, 0, 0]);
   private _language: string = "";
   private _text: string = "";
+  constructor();
+  constructor(language: string, text: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string, param2?: string) {
+    if (typeof param1 === "string" && typeof param2 === "string") {
+      this.language = param1;
+      this.text = param2;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get language() {
     return this._language;
   }
@@ -250,6 +282,17 @@ export class NameWithLanguageValue implements Value {
   private _value: Buffer = Buffer.from([0, 0, 0, 0]);
   private _language: string = "";
   private _name: string = "";
+  constructor();
+  constructor(language: string, name: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string, param2?: string) {
+    if (typeof param1 === "string" && typeof param2 === "string") {
+      this.language = param1;
+      this.name = param2;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get language() {
     return this._language;
   }
@@ -322,6 +365,16 @@ export class NameWithLanguageValue implements Value {
 export class CharsetValue implements Value {
   private _value: Buffer = Buffer.from([]);
   private _charset: string = "";
+  constructor();
+  constructor(charset: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string) {
+    if (typeof param1 === "string") {
+      this.charset = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get charset() {
     return this._charset;
   }
@@ -361,6 +414,16 @@ export class CharsetValue implements Value {
 export class NaturalLanguageValue implements Value {
   private _value: Buffer = Buffer.from([]);
   private _language: string = "";
+  constructor();
+  constructor(language: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string) {
+    if (typeof param1 === "string") {
+      this.language = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get language() {
     return this._language;
   }
@@ -402,6 +465,16 @@ export class NaturalLanguageValue implements Value {
 export class MimeMediaTypeValue implements Value {
   private _value: Buffer = Buffer.from([]);
   private _mimeMediaType: string = "";
+  constructor();
+  constructor(mimeMediaType: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string) {
+    if (typeof param1 === "string") {
+      this.mimeMediaType = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get mimeMediaType() {
     return this._mimeMediaType;
   }
@@ -440,6 +513,16 @@ export class MimeMediaTypeValue implements Value {
 export class KeywordValue implements Value {
   private _value: Buffer = Buffer.from([]);
   private _keyword: string = "";
+  constructor();
+  constructor(keyword: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string) {
+    if (typeof param1 === "string") {
+      this.keyword = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get keyword() {
     return this._keyword;
   }
@@ -479,6 +562,16 @@ export class KeywordValue implements Value {
 export class UriValue implements Value {
   private _value: Buffer = Buffer.from([]);
   private _uri: string = "";
+  constructor();
+  constructor(uri: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string) {
+    if (typeof param1 === "string") {
+      this.uri = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get uri() {
     return this._uri;
   }
@@ -518,6 +611,16 @@ export class UriValue implements Value {
 export class UriSchemeValue implements Value {
   private _value: Buffer = Buffer.from([]);
   private _uriScheme: string = "";
+  constructor();
+  constructor(uriScheme: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string) {
+    if (typeof param1 === "string") {
+      this.uriScheme = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get uriScheme() {
     return this._uriScheme;
   }
@@ -554,6 +657,16 @@ export class UriSchemeValue implements Value {
 export class BooleanValue implements Value {
   private _value: Buffer = Buffer.from([0]);
   private _flag: boolean = false;
+  constructor();
+  constructor(flag: boolean);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | boolean) {
+    if (typeof param1 === "boolean") {
+      this.flag = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get flag() {
     return this._flag;
   }
@@ -591,6 +704,16 @@ export class BooleanValue implements Value {
 export class IntegerValue implements Value {
   private _value: Buffer = Buffer.from([0, 0, 0, 0]);
   private _integer: number = 0;
+  constructor();
+  constructor(integer: number);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | number) {
+    if (typeof param1 === "number") {
+      this.integer = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get integer() {
     return this._integer;
   }
@@ -632,6 +755,16 @@ export class EnumValue implements Value {
   // TODO make generic?
   private _value: Buffer = Buffer.from([0, 0, 0, 0]);
   private _enum: number = 0;
+  constructor();
+  constructor(enumValue: number);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | number) {
+    if (typeof param1 === "number") {
+      this.enum = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get enum() {
     return this._enum;
   }
@@ -690,6 +823,16 @@ export class EnumValue implements Value {
 export class DateTimeValue implements Value {
   private _value: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   private _dateTime: Date = new Date(0);
+  constructor();
+  constructor(dateTime: Date);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | Date) {
+    if (types.isDate(param1)) {
+      this.dateTime = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get dateTime() {
     return this._dateTime;
   }
@@ -772,6 +915,22 @@ export class ResolutionValue implements Value {
   private _crossFeed: number = 0;
   private _feed: number = 0;
   private _units: number = 0;
+  constructor();
+  constructor(crossFeed: number, feed: number, units: number);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | number, param2?: number, param3?: number) {
+    if (
+      typeof param1 === "number" &&
+      typeof param2 === "number" &&
+      typeof param3 === "number"
+    ) {
+      this.crossFeed = param1;
+      this.feed = param2;
+      this.units = param3;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get crossFeed() {
     return this._crossFeed;
   }
@@ -846,6 +1005,17 @@ export class RangeOfIntegerValue implements Value {
   private _value: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0]);
   private _lowerBound: number = 0;
   private _upperBound: number = 0;
+  constructor();
+  constructor(lowerBound: number, upperBound: number);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | number, param2?: number) {
+    if (typeof param1 === "number" && typeof param2 === "number") {
+      this.lowerBound = param1;
+      this.upperBound = param2;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
   get lowerBound() {
     return this._lowerBound;
   }
@@ -899,6 +1069,11 @@ export class RangeOfIntegerValue implements Value {
  */
 export class OctetStringValue implements Value {
   public value: Buffer = Buffer.from([]);
+  constructor(value?: Buffer) {
+    if (value) {
+      this.value = value;
+    }
+  }
   get valueTag() {
     return ValueTag.octetString;
   }

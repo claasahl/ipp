@@ -10,6 +10,14 @@ test("decode", () => {
   data.value = Buffer.from("0000002a", "hex");
   expect(data.integer).toBe(42);
 });
+test("encode (implicit set)", () => {
+  const data = new ValueType(42);
+  expect(data.value).toStrictEqual(Buffer.from("0000002a", "hex"));
+});
+test("decode (implicit set)", () => {
+  const data = new ValueType(Buffer.from("0000002a", "hex"));
+  expect(data.integer).toBe(42);
+});
 test("constant valueTag", () => {
   const data = new ValueType();
   expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);

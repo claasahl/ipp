@@ -12,6 +12,18 @@ test("decode", () => {
   data.value = Buffer.from("697070733a2f2f6c6f63616c686f7374", "hex");
   expect(data.uri).toBe("ipps://localhost");
 });
+test("encode (implicit set)", () => {
+  const data = new ValueType("ipps://localhost");
+  expect(data.value).toStrictEqual(
+    Buffer.from("697070733a2f2f6c6f63616c686f7374", "hex")
+  );
+});
+test("decode (implicit set)", () => {
+  const data = new ValueType(
+    Buffer.from("697070733a2f2f6c6f63616c686f7374", "hex")
+  );
+  expect(data.uri).toBe("ipps://localhost");
+});
 test("constant valueTag", () => {
   const data = new ValueType();
   expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);

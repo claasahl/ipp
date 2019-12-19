@@ -1,14 +1,13 @@
 const ValueType = require("../../../../build/ipp/simple/values")
   .OctetStringValue;
 
-test("encode", () => {
+test("en/decode", () => {
   const data = new ValueType();
   data.value = Buffer.from("0000002a", "hex");
   expect(data.value).toStrictEqual(Buffer.from("0000002a", "hex"));
 });
-test("decode", () => {
-  const data = new ValueType();
-  data.value = Buffer.from("0000002a", "hex");
+test("en-/decode (implicit set)", () => {
+  const data = new ValueType(Buffer.from("0000002a", "hex"));
   expect(data.value).toStrictEqual(Buffer.from("0000002a", "hex"));
 });
 test("constant valueTag", () => {

@@ -13,6 +13,15 @@ test("decode", () => {
   expect(data.lowerBound).toBe(5);
   expect(data.upperBound).toBe(42);
 });
+test("encode (implicit set)", () => {
+  const data = new ValueType(5, 42);
+  expect(data.value).toStrictEqual(Buffer.from("000000050000002a", "hex"));
+});
+test("decode (implicit set)", () => {
+  const data = new ValueType(Buffer.from("000000050000002a", "hex"));
+  expect(data.lowerBound).toBe(5);
+  expect(data.upperBound).toBe(42);
+});
 test("constant valueTag", () => {
   const data = new ValueType();
   expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);

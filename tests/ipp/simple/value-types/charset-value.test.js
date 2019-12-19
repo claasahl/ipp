@@ -10,6 +10,14 @@ test("decode", () => {
   data.value = Buffer.from("75746638", "hex");
   expect(data.charset).toBe("utf8");
 });
+test("encode (implicit set)", () => {
+  const data = new ValueType("utf8");
+  expect(data.value).toStrictEqual(Buffer.from("75746638", "hex"));
+});
+test("decode (implicit set)", () => {
+  const data = new ValueType(Buffer.from("75746638", "hex"));
+  expect(data.charset).toBe("utf8");
+});
 test("constant valueTag", () => {
   const data = new ValueType();
   expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);

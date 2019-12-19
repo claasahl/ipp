@@ -15,6 +15,19 @@ test("decode", () => {
   expect(data.language).toBe("en");
   expect(data.name).toBe("hello world");
 });
+test("encode (implicit set)", () => {
+  const data = new ValueType("en", "hello world");
+  expect(data.value).toStrictEqual(
+    Buffer.from("0002656e000b68656c6c6f20776f726c64", "hex")
+  );
+});
+test("decode (implicit set)", () => {
+  const data = new ValueType(
+    Buffer.from("0002656e000b68656c6c6f20776f726c64", "hex")
+  );
+  expect(data.language).toBe("en");
+  expect(data.name).toBe("hello world");
+});
 test("constant valueTag", () => {
   const data = new ValueType();
   expect(() => (data.valueTag = 42)).toThrow(/must not be changed/);
