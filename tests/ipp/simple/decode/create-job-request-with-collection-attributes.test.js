@@ -1,5 +1,9 @@
 const decode = require("../../../../build/ipp/simple/decode").default;
 const Values = require("../../../../build/ipp/simple/values");
+const {
+  operationAttributesTag,
+  jobAttributesTag
+} = require("../../../../build/ipp/simple/constants").BeginAttributeGroupTag;
 
 test("Create-Job Request with Collection Attributes", () => {
   const data = Buffer.from(
@@ -13,7 +17,7 @@ test("Create-Job Request with Collection Attributes", () => {
     requestId: 0x00000001,
     attributeGroups: [
       {
-        groupTag: 0x01,
+        groupTag: operationAttributesTag,
         attributes: [
           {
             name: "attributes-charset",

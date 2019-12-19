@@ -1,5 +1,9 @@
 const encode = require("../../../../build/ipp/simple/encode").default;
 const Values = require("../../../../build/ipp/simple/values");
+const {
+  operationAttributesTag,
+  jobAttributesTag
+} = require("../../../../build/ipp/simple/constants").BeginAttributeGroupTag;
 
 test("Print-Job Request", () => {
   const message = {
@@ -8,7 +12,7 @@ test("Print-Job Request", () => {
     requestId: 0x00000001,
     attributeGroups: [
       {
-        groupTag: 0x01,
+        groupTag: operationAttributesTag,
         attributes: [
           {
             name: "attributes-charset",
@@ -37,7 +41,7 @@ test("Print-Job Request", () => {
         ]
       },
       {
-        groupTag: 0x02,
+        groupTag: jobAttributesTag,
         attributes: [
           {
             name: "copies",

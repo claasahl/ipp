@@ -1,5 +1,10 @@
 const encode = require("../../../../build/ipp/simple/encode").default;
 const Values = require("../../../../build/ipp/simple/values");
+const {
+  operationAttributesTag,
+  jobAttributesTag,
+  unsupportedAttributesTag
+} = require("../../../../build/ipp/simple/constants").BeginAttributeGroupTag;
 
 test("Print-Job Response (Success with Attributes Ignored)", () => {
   const message = {
@@ -8,7 +13,7 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
     requestId: 0x00000001,
     attributeGroups: [
       {
-        groupTag: 0x01,
+        groupTag: operationAttributesTag,
         attributes: [
           {
             name: "attributes-charset",
@@ -29,7 +34,7 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
         ]
       },
       {
-        groupTag: 0x05,
+        groupTag: unsupportedAttributesTag,
         attributes: [
           {
             name: "copies",
@@ -42,7 +47,7 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
         ]
       },
       {
-        groupTag: 0x02,
+        groupTag: jobAttributesTag,
         attributes: [
           {
             name: "job-id",

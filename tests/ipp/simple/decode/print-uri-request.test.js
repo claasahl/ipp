@@ -1,5 +1,9 @@
 const decode = require("../../../../build/ipp/simple/decode").default;
 const Values = require("../../../../build/ipp/simple/values");
+const {
+  operationAttributesTag,
+  jobAttributesTag
+} = require("../../../../build/ipp/simple/constants").BeginAttributeGroupTag;
 
 test("Print-URI Request", () => {
   const data = Buffer.from(
@@ -13,7 +17,7 @@ test("Print-URI Request", () => {
     requestId: 0x00000001,
     attributeGroups: [
       {
-        groupTag: 0x01,
+        groupTag: operationAttributesTag,
         attributes: [
           {
             name: "attributes-charset",
@@ -42,7 +46,7 @@ test("Print-URI Request", () => {
         ]
       },
       {
-        groupTag: 0x02,
+        groupTag: jobAttributesTag,
         attributes: [
           {
             name: "copies",
