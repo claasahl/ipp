@@ -9,7 +9,7 @@ function message2(message: Message): types.IppMessage {
     requestId,
     operationIdOrStatusCode,
     attributeGroups,
-    data
+    data = Buffer.alloc(0)
   } = message;
   const major = version === "2.0" ? 2 : 1;
   const minor = version === "1.1" ? 1 : 0;

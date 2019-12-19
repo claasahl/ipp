@@ -5,7 +5,7 @@ export interface Message {
   operationIdOrStatusCode: number;
   requestId: number;
   attributeGroups: AttributeGroup[];
-  data: Buffer;
+  data?: Buffer;
 }
 
 export interface AttributeGroup {
