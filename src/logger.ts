@@ -1,18 +1,15 @@
-import { createLogger, format, transports } from "winston";
+import debuck from "debug";
 
 import CONFIG from "./config";
 
-export const logger = createLogger({
-  level: CONFIG.log_level,
-  format: format.combine(
-    format.timestamp({
-      format: "YYYY-MM-DD HH:mm:ss"
-    }),
-    format.errors({ stack: true }),
-    format.json()
-  ),
-  defaultMeta: { service: CONFIG.name },
-  transports: [new transports.Console()]
-});
-logger.debug("active configuration", CONFIG);
-export default logger;
+const log = debuck(CONFIG.name);
+export const info = log.extend("info");
+export const error = log.extend("error");
+export const debug = log.extend("debug");
+
+debug("active configuration %o", CONFIG);
+export default {
+  info,
+  error,
+  debug: debuck
+};

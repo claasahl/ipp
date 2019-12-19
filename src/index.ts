@@ -5,7 +5,6 @@ import rateLimit from "express-rate-limit";
 
 import CONFIG from "./config";
 import logger from "./logger";
-import routes from "./routes";
 import { Request } from "express";
 
 const app = express();
@@ -15,7 +14,7 @@ app.use(
   responseTime((req: Request, res, time) => {
     const { method, originalUrl: url } = req;
     const { statusCode } = res;
-    logger.info("Handled request.", { method, url, statusCode, time });
+    logger.info("Handled request. %o", { method, url, statusCode, time });
   })
 );
 
@@ -29,5 +28,5 @@ app.use(
 );
 
 // ... start integration
-app.use("/api/v1", routes);
-app.listen(CONFIG.port, () => logger.info(`Listening on port ${CONFIG.port}`));
+app.get("/", (_req, res) => res.sendStatus(200));
+app.listen(CONFIG.port, () => logger.info("Listening on port %d", CONFIG.port));
