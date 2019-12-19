@@ -69,12 +69,11 @@ function handleIppRequest(request: ipp.Message): ipp.Message {
         };
     }
   } finally {
-    logger.info("Handling IPP request. %o", {
-      version: request.version,
+    logger.info("Handling IPP request. %j", {
+      ...request,
       operationId:
         OperationId[request.operationIdOrStatusCode] ||
-        request.operationIdOrStatusCode,
-      requestId: request.requestId
+        request.operationIdOrStatusCode
     });
   }
 }

@@ -1,4 +1,5 @@
 const decode = require("../../../../build/ipp/simple/decode").default;
+const Values = require("../../../../build/ipp/simple/values");
 
 test("Get-Jobs Response", () => {
   const data = Buffer.from(
@@ -16,30 +17,15 @@ test("Get-Jobs Response", () => {
         attributes: [
           {
             name: "attributes-charset",
-            values: [
-              {
-                valueTag: 0x47,
-                value: Buffer.from("utf-8", "utf8")
-              }
-            ]
+            values: [new Values.CharsetValue("utf-8")]
           },
           {
             name: "attributes-natural-language",
-            values: [
-              {
-                valueTag: 0x48,
-                value: Buffer.from("en-us", "utf8")
-              }
-            ]
+            values: [new Values.NaturalLanguageValue("en-us")]
           },
           {
             name: "status-message",
-            values: [
-              {
-                valueTag: 0x41,
-                value: Buffer.from("successful-ok", "utf8")
-              }
-            ]
+            values: [new Values.TextWithoutLanguageValue("successful-ok")]
           }
         ]
       },
@@ -48,26 +34,11 @@ test("Get-Jobs Response", () => {
         attributes: [
           {
             name: "job-id",
-            values: [
-              {
-                valueTag: 0x21,
-                value: Buffer.from([0, 0, 0, 147])
-              }
-            ]
+            values: [new Values.IntegerValue(147)]
           },
           {
             name: "job-name",
-            values: [
-              {
-                valueTag: 0x36,
-                value: Buffer.concat([
-                  Buffer.from([0x00, 0x05]),
-                  Buffer.from("fr-ca", "utf8"),
-                  Buffer.from([0x00, 0x03]),
-                  Buffer.from("fou", "utf8")
-                ])
-              }
-            ]
+            values: [new Values.NameWithLanguageValue("fr-ca", "fou")]
           }
         ]
       },
@@ -80,26 +51,11 @@ test("Get-Jobs Response", () => {
         attributes: [
           {
             name: "job-id",
-            values: [
-              {
-                valueTag: 0x21,
-                value: Buffer.from([0, 0, 0, 148])
-              }
-            ]
+            values: [new Values.IntegerValue(148)]
           },
           {
             name: "job-name",
-            values: [
-              {
-                valueTag: 0x36,
-                value: Buffer.concat([
-                  Buffer.from([0x00, 0x05]),
-                  Buffer.from("de-CH", "utf8"),
-                  Buffer.from([0x00, 0x09]),
-                  Buffer.from("isch guet", "utf8")
-                ])
-              }
-            ]
+            values: [new Values.NameWithLanguageValue("de-CH", "isch guet")]
           }
         ]
       }

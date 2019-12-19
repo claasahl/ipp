@@ -1,4 +1,5 @@
 const decode = require("../../../../build/ipp/simple/decode").default;
+const Values = require("../../../../build/ipp/simple/values");
 
 test("Print-Job Response (Success with Attributes Ignored)", () => {
   const data = Buffer.from(
@@ -16,32 +17,18 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
         attributes: [
           {
             name: "attributes-charset",
-            values: [
-              {
-                valueTag: 0x47,
-                value: Buffer.from("utf-8", "utf8")
-              }
-            ]
+            values: [new Values.CharsetValue("utf-8")]
           },
           {
             name: "attributes-natural-language",
-            values: [
-              {
-                valueTag: 0x48,
-                value: Buffer.from("en-us", "utf8")
-              }
-            ]
+            values: [new Values.NaturalLanguageValue("en-us")]
           },
           {
             name: "status-message",
             values: [
-              {
-                valueTag: 0x41,
-                value: Buffer.from(
-                  "successful-ok-ignored-or-substituted-attributes",
-                  "utf8"
-                )
-              }
+              new Values.TextWithoutLanguageValue(
+                "successful-ok-ignored-or-substituted-attributes"
+              )
             ]
           }
         ]
@@ -51,21 +38,11 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
         attributes: [
           {
             name: "copies",
-            values: [
-              {
-                valueTag: 0x21,
-                value: Buffer.from([0x00, 0x00, 0x00, 0x14])
-              }
-            ]
+            values: [new Values.IntegerValue(0x14)]
           },
           {
             name: "sides",
-            values: [
-              {
-                valueTag: 0x10,
-                value: Buffer.from("", "utf8")
-              }
-            ]
+            values: [new Values.UnsupportedValue()]
           }
         ]
       },
@@ -74,33 +51,19 @@ test("Print-Job Response (Success with Attributes Ignored)", () => {
         attributes: [
           {
             name: "job-id",
-            values: [
-              {
-                valueTag: 0x21,
-                value: Buffer.from([0, 0, 0, 147])
-              }
-            ]
+            values: [new Values.IntegerValue(147)]
           },
           {
             name: "job-uri",
             values: [
-              {
-                valueTag: 0x45,
-                value: Buffer.from(
-                  "ipp://printer.example.com/ipp/print/pinetree/147",
-                  "utf8"
-                )
-              }
+              new Values.UriValue(
+                "ipp://printer.example.com/ipp/print/pinetree/147"
+              )
             ]
           },
           {
             name: "job-state",
-            values: [
-              {
-                valueTag: 0x23,
-                value: Buffer.from([0x00, 0x00, 0x00, 0x03])
-              }
-            ]
+            values: [new Values.EnumValue(0x03)]
           }
         ]
       }

@@ -7,6 +7,8 @@ import {
   Value,
   VersionNumber
 } from "./types";
+import * as Values from "./values";
+import { unknownValue, noValue, unsupportedValue } from "./constants";
 
 function decodeMessage(message: types.IppMessage): Message {
   const { versionNumber, requestId, operationIdOrStatusCode, data } = message;
@@ -55,7 +57,50 @@ function value(
 ): Value {
   // TODO consider validating valueLength and nameLength
   const { value: v, valueTag } = value;
-  return { value: v, valueTag };
+  switch (valueTag) {
+    case Values.UnsupportedValue.prototype.valueTag:
+      return unsupportedValue;
+    case Values.UnknownValue.prototype.valueTag:
+      return unknownValue;
+    case Values.NoValue.prototype.valueTag:
+      return noValue;
+    case Values.TextWithoutLanguageValue.prototype.valueTag:
+      return new Values.TextWithoutLanguageValue(v);
+    case Values.NameWithoutLanguageValue.prototype.valueTag:
+      return new Values.NameWithoutLanguageValue(v);
+    case Values.TextWithLanguageValue.prototype.valueTag:
+      return new Values.TextWithLanguageValue(v); //-- not in test cases
+    case Values.NameWithLanguageValue.prototype.valueTag:
+      return new Values.NameWithLanguageValue(v);
+    case Values.CharsetValue.prototype.valueTag:
+      return new Values.CharsetValue(v);
+    case Values.NaturalLanguageValue.prototype.valueTag:
+      return new Values.NaturalLanguageValue(v);
+    case Values.MimeMediaTypeValue.prototype.valueTag:
+      return new Values.MimeMediaTypeValue(v); //-- not in test cases
+    case Values.KeywordValue.prototype.valueTag:
+      return new Values.KeywordValue(v);
+    case Values.UriValue.prototype.valueTag:
+      return new Values.UriValue(v);
+    case Values.UriSchemeValue.prototype.valueTag:
+      return new Values.UriSchemeValue(v); //-- not in test cases
+    case Values.BooleanValue.prototype.valueTag:
+      return new Values.BooleanValue(v);
+    case Values.IntegerValue.prototype.valueTag:
+      return new Values.IntegerValue(v);
+    case Values.EnumValue.prototype.valueTag:
+      return new Values.EnumValue(v);
+    case Values.DateTimeValue.prototype.valueTag:
+      return new Values.DateTimeValue(v); //-- not in test cases
+    case Values.ResolutionValue.prototype.valueTag:
+      return new Values.ResolutionValue(v); //-- not in test cases
+    case Values.RangeOfIntegerValue.prototype.valueTag:
+      return new Values.RangeOfIntegerValue(v); //-- not in test cases
+    case Values.OctetStringValue.prototype.valueTag:
+      return new Values.OctetStringValue(v); //-- not in test cases
+    default:
+      return { value: v, valueTag };
+  }
 }
 
 export function decode(message: Buffer): Message {
