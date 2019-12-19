@@ -121,7 +121,7 @@ function additionalValue(additionalValue: types.AdditionalValue): Buffer {
   return Buffer.concat([part1, part2]);
 }
 
-function encode(message: types.IppMessage): Buffer {
+export function encode(message: types.IppMessage): Buffer {
   return ippMessage(message);
 }
 export default encode;

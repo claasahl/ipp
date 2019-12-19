@@ -58,7 +58,7 @@ function value(
   return { value: v, valueTag };
 }
 
-function decode(message: Buffer): Message {
+export function decode(message: Buffer): Message {
   const ippMessage = decodeRaw(message);
   return message2(ippMessage);
 }

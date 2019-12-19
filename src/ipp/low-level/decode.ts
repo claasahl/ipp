@@ -219,7 +219,7 @@ function additionalValue(
   };
 }
 
-function decode(message: Buffer): types.IppMessage {
+export function decode(message: Buffer): types.IppMessage {
   return ippMessage(message);
 }
 export default decode;

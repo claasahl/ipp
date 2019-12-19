@@ -57,7 +57,7 @@ function attribute(attribute: Attribute): types.Attribute {
   };
 }
 
-function encode(message: Message): Buffer {
+export function encode(message: Message): Buffer {
   const ippMessage = message2(message);
   return encodeRaw(ippMessage);
 }
