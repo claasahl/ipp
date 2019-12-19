@@ -1,4 +1,5 @@
 const encode = require("../../../../build/ipp/simple/encode").default;
+const Values = require("../../../../build/ipp/simple/values");
 
 test("Get-Jobs Request", () => {
   const message = {
@@ -11,58 +12,30 @@ test("Get-Jobs Request", () => {
         attributes: [
           {
             name: "attributes-charset",
-            values: [
-              {
-                valueTag: 0x47,
-                value: Buffer.from("utf-8", "utf8")
-              }
-            ]
+            values: [new Values.CharsetValue("utf-8")]
           },
           {
             name: "attributes-natural-language",
-            values: [
-              {
-                valueTag: 0x48,
-                value: Buffer.from("en-us", "utf8")
-              }
-            ]
+            values: [new Values.NaturalLanguageValue("en-us")]
           },
           {
             name: "printer-uri",
             values: [
-              {
-                valueTag: 0x45,
-                value: Buffer.from(
-                  "ipp://printer.example.com/ipp/print/pinetree",
-                  "utf8"
-                )
-              }
+              new Values.UriValue(
+                "ipp://printer.example.com/ipp/print/pinetree"
+              )
             ]
           },
           {
             name: "limit",
-            values: [
-              {
-                valueTag: 0x21,
-                value: Buffer.from([0x00, 0x00, 0x00, 0x32])
-              }
-            ]
+            values: [new Values.IntegerValue(0x32)]
           },
           {
             name: "requested-attributes",
             values: [
-              {
-                valueTag: 0x44,
-                value: Buffer.from("job-id", "utf8")
-              },
-              {
-                valueTag: 0x44,
-                value: Buffer.from("job-name", "utf8")
-              },
-              {
-                valueTag: 0x44,
-                value: Buffer.from("document-format", "utf8")
-              }
+              new Values.KeywordValue("job-id"),
+              new Values.KeywordValue("job-name"),
+              new Values.KeywordValue("document-format")
             ]
           }
         ]

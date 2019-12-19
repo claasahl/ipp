@@ -1,4 +1,5 @@
 const encode = require("../../../../build/ipp/simple/encode").default;
+const Values = require("../../../../build/ipp/simple/values");
 
 test("Create-Job Request", () => {
   const message = {
@@ -11,32 +12,18 @@ test("Create-Job Request", () => {
         attributes: [
           {
             name: "attributes-charset",
-            values: [
-              {
-                valueTag: 0x47,
-                value: Buffer.from("utf-8", "utf8")
-              }
-            ]
+            values: [new Values.CharsetValue("utf-8")]
           },
           {
             name: "attributes-natural-language",
-            values: [
-              {
-                valueTag: 0x48,
-                value: Buffer.from("en-us", "utf8")
-              }
-            ]
+            values: [new Values.NaturalLanguageValue("en-us")]
           },
           {
             name: "printer-uri",
             values: [
-              {
-                valueTag: 0x45,
-                value: Buffer.from(
-                  "ipp://printer.example.com/ipp/print/pinetree",
-                  "utf8"
-                )
-              }
+              new Values.UriValue(
+                "ipp://printer.example.com/ipp/print/pinetree"
+              )
             ]
           }
         ]

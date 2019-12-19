@@ -1,4 +1,5 @@
 const encode = require("../../../../build/ipp/simple/encode").default;
+const Values = require("../../../../build/ipp/simple/values");
 
 test("Print-Job Request", () => {
   const message = {
@@ -11,51 +12,27 @@ test("Print-Job Request", () => {
         attributes: [
           {
             name: "attributes-charset",
-            values: [
-              {
-                valueTag: 0x47,
-                value: Buffer.from("utf-8", "utf8")
-              }
-            ]
+            values: [new Values.CharsetValue("utf-8")]
           },
           {
             name: "attributes-natural-language",
-            values: [
-              {
-                valueTag: 0x48,
-                value: Buffer.from("en-us", "utf8")
-              }
-            ]
+            values: [new Values.NaturalLanguageValue("en-us")]
           },
           {
             name: "printer-uri",
             values: [
-              {
-                valueTag: 0x45,
-                value: Buffer.from(
-                  "ipp://printer.example.com/ipp/print/pinetree",
-                  "utf8"
-                )
-              }
+              new Values.UriValue(
+                "ipp://printer.example.com/ipp/print/pinetree"
+              )
             ]
           },
           {
             name: "job-name",
-            values: [
-              {
-                valueTag: 0x42,
-                value: Buffer.from("foobar", "utf8")
-              }
-            ]
+            values: [new Values.NameWithoutLanguageValue("foobar")]
           },
           {
             name: "ipp-attribute-fidelity",
-            values: [
-              {
-                valueTag: 0x22,
-                value: Buffer.from([0x01])
-              }
-            ]
+            values: [new Values.BooleanValue(true)]
           }
         ]
       },
@@ -64,21 +41,11 @@ test("Print-Job Request", () => {
         attributes: [
           {
             name: "copies",
-            values: [
-              {
-                valueTag: 0x21,
-                value: Buffer.from([0x00, 0x00, 0x00, 0x14])
-              }
-            ]
+            values: [new Values.IntegerValue(0x14)]
           },
           {
             name: "sides",
-            values: [
-              {
-                valueTag: 0x44,
-                value: Buffer.from("two-sided-long-edge", "utf8")
-              }
-            ]
+            values: [new Values.KeywordValue("two-sided-long-edge")]
           }
         ]
       }

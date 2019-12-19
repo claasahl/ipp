@@ -1,4 +1,5 @@
 const encode = require("../../../../build/ipp/simple/encode").default;
+const Values = require("../../../../build/ipp/simple/values");
 
 test("Print-Job Response (Failure)", () => {
   const message = {
@@ -11,32 +12,18 @@ test("Print-Job Response (Failure)", () => {
         attributes: [
           {
             name: "attributes-charset",
-            values: [
-              {
-                valueTag: 0x47,
-                value: Buffer.from("utf-8", "utf8")
-              }
-            ]
+            values: [new Values.CharsetValue("utf-8")]
           },
           {
             name: "attributes-natural-language",
-            values: [
-              {
-                valueTag: 0x48,
-                value: Buffer.from("en-us", "utf8")
-              }
-            ]
+            values: [new Values.NaturalLanguageValue("en-us")]
           },
           {
             name: "status-message",
             values: [
-              {
-                valueTag: 0x41,
-                value: Buffer.from(
-                  "client-error-attributes-or-values-not-supported",
-                  "utf8"
-                )
-              }
+              new Values.TextWithoutLanguageValue(
+                "client-error-attributes-or-values-not-supported"
+              )
             ]
           }
         ]
@@ -46,21 +33,11 @@ test("Print-Job Response (Failure)", () => {
         attributes: [
           {
             name: "copies",
-            values: [
-              {
-                valueTag: 0x21,
-                value: Buffer.from([0x00, 0x00, 0x00, 0x14])
-              }
-            ]
+            values: [new Values.IntegerValue(0x14)]
           },
           {
             name: "sides",
-            values: [
-              {
-                valueTag: 0x10,
-                value: Buffer.from("", "utf8")
-              }
-            ]
+            values: [new Values.UnsupportedValue()]
           }
         ]
       }

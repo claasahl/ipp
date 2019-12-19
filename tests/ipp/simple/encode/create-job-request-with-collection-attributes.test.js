@@ -1,4 +1,5 @@
 const encode = require("../../../../build/ipp/simple/encode").default;
+const Values = require("../../../../build/ipp/simple/values");
 
 test("Create-Job Request with Collection Attributes", () => {
   const message = {
@@ -11,81 +12,34 @@ test("Create-Job Request with Collection Attributes", () => {
         attributes: [
           {
             name: "attributes-charset",
-            values: [
-              {
-                valueTag: 0x47,
-                value: Buffer.from("utf-8", "utf8")
-              }
-            ]
+            values: [new Values.CharsetValue("utf-8")]
           },
           {
             name: "attributes-natural-language",
-            values: [
-              {
-                valueTag: 0x48,
-                value: Buffer.from("en-us", "utf8")
-              }
-            ]
+            values: [new Values.NaturalLanguageValue("en-us")]
           },
           {
             name: "printer-uri",
             values: [
-              {
-                valueTag: 0x45,
-                value: Buffer.from(
-                  "ipp://printer.example.com/ipp/print/pinetree",
-                  "utf8"
-                )
-              }
+              new Values.UriValue(
+                "ipp://printer.example.com/ipp/print/pinetree"
+              )
             ]
           },
           {
             name: "media-col",
             values: [
-              {
-                valueTag: 0x34,
-                value: Buffer.from("", "utf8")
-              },
-              {
-                valueTag: 0x4a,
-                value: Buffer.from("media-size", "utf8")
-              },
-              {
-                valueTag: 0x34,
-                value: Buffer.from("", "utf8")
-              },
-              {
-                valueTag: 0x4a,
-                value: Buffer.from("x-dimension", "utf8")
-              },
-              {
-                valueTag: 0x21,
-                value: Buffer.from([0x00, 0x00, 0x52, 0x08])
-              },
-              {
-                valueTag: 0x4a,
-                value: Buffer.from("y-dimension", "utf8")
-              },
-              {
-                valueTag: 0x21,
-                value: Buffer.from([0x00, 0x00, 0x74, 0x04])
-              },
-              {
-                valueTag: 0x37,
-                value: Buffer.from("", "utf8")
-              },
-              {
-                valueTag: 0x4a,
-                value: Buffer.from("media-type", "utf8")
-              },
-              {
-                valueTag: 0x44,
-                value: Buffer.from("stationery", "utf8")
-              },
-              {
-                valueTag: 0x37,
-                value: Buffer.from("", "utf8")
-              }
+              new Values.BegCollectionValue(),
+              new Values.MemberAttrNameValue("media-size"),
+              new Values.BegCollectionValue(),
+              new Values.MemberAttrNameValue("x-dimension"),
+              new Values.IntegerValue(21000),
+              new Values.MemberAttrNameValue("y-dimension"),
+              new Values.IntegerValue(29700),
+              new Values.EndCollectionValue(),
+              new Values.MemberAttrNameValue("media-type"),
+              new Values.KeywordValue("stationery"),
+              new Values.EndCollectionValue()
             ]
           }
         ]
