@@ -1,11 +1,13 @@
-import express from "express";
+import express, { Request } from "express";
 import responseTime from "response-time";
 import helmet from "helmet";
 import rateLimit from "express-rate-limit";
+import bodyParser from "body-parser";
 
 import CONFIG from "./config";
 import logger from "./logger";
-import { Request } from "express";
+import * as ipp from "./ipp/simple";
+import { OperationId, StatusCode } from "./ipp/low-level";
 
 const app = express();
 
@@ -29,4 +31,50 @@ app.use(
 
 // ... start integration
 app.get("/", (_req, res) => res.sendStatus(200));
+app.use(
+  (req, res, next) => {
+    if (req.header("content-type") === "application/ipp") {
+      next();
+    } else {
+      res.status(415).send();
+    }
+  },
+  (req, res, next) => {
+    if (req.method === "POST") {
+      next();
+    } else {
+      res.setHeader("Allow", "POST");
+      res.status(405).send();
+    }
+  },
+  bodyParser.raw({ type: "application/ipp", inflate: true, limit: "10mb" }),
+  (req, res) => {
+    const request = ipp.decode(req.body);
+    const response = handleIppRequest(request);
+    const body = ipp.encode(response);
+    res.status(200).send(body);
+  }
+);
 app.listen(CONFIG.port, () => logger.info("Listening on port %d", CONFIG.port));
+
+function handleIppRequest(request: ipp.Message): ipp.Message {
+  try {
+    switch (request.operationIdOrStatusCode) {
+      default:
+        return {
+          version: request.version,
+          operationIdOrStatusCode: StatusCode.clientErrorCharsetNotSupported,
+          requestId: request.requestId,
+          attributeGroups: []
+        };
+    }
+  } finally {
+    logger.info("Handling IPP request. %o", {
+      version: request.version,
+      operationId:
+        OperationId[request.operationIdOrStatusCode] ||
+        request.operationIdOrStatusCode,
+      requestId: request.requestId
+    });
+  }
+}
