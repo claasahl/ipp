@@ -1,3 +1,5 @@
+import * as Values from "../simple";
+
 /**
  * +------------------+----------------+-----------+
  * | Attribute        | Syntax         | REQUIRED? |
@@ -14,7 +16,7 @@
  * https://tools.ietf.org/html/rfc8011#section-5.3
  */
 export const readWrite = {
-  jobName: undefined
+  jobName: [new Values.NameWithoutLanguageValue("mr. job")]
 };
 
 /**
@@ -80,16 +82,16 @@ export const readWrite = {
  * https://tools.ietf.org/html/rfc8011#section-5.3
  */
 export const readOnly = {
-  attributesCharset: undefined,
-  attributesNaturalLanguage: undefined,
-  jobId: undefined,
-  jobOriginatingUserName: undefined,
-  jobPrinterUpTime: undefined,
-  jobPrinterUri: undefined,
-  jobState: undefined,
-  jobStateReasons: undefined,
-  jobUri: undefined,
-  timeAtCompleted: undefined,
-  timeAtCreation: undefined,
-  timeAtProcessing: undefined
+  attributesCharset: [new Values.CharsetValue("utf-8")],
+  attributesNaturalLanguage: [new Values.NaturalLanguageValue("en-us")],
+  jobId: [new Values.IntegerValue(42)],
+  jobOriginatingUserName: [new Values.NameWithoutLanguageValue("mr. user")],
+  jobPrinterUpTime: [new Values.IntegerValue(420)],
+  jobPrinterUri: [new Values.UriValue("http://localhost:3000")],
+  jobState: [new Values.EnumValue(3)],
+  jobStateReasons: [new Values.KeywordValue("none")],
+  jobUri: [new Values.UriValue("http://localhost:3000/jobs/42")],
+  timeAtCompleted: [new Values.NoValue()],
+  timeAtCreation: [new Values.IntegerValue(23)],
+  timeAtProcessing: [new Values.NoValue()]
 };

@@ -2,7 +2,17 @@ import assert from "assert";
 import debug from "debug";
 
 import { Message } from "../simple/types";
-import { OperationId, StatusCode } from "../low-level/constants";
+import {
+  OperationId,
+  StatusCode,
+  BeginAttributeGroupTag
+} from "../low-level/constants";
+import { readOnly, readWrite } from "./attributes";
+import { CharsetValue, NaturalLanguageValue } from "../simple";
+
+const { CancelJob, GetJobAttributes } = OperationId;
+const { successfulOk } = StatusCode;
+const { operationAttributesTag, jobAttributesTag } = BeginAttributeGroupTag;
 
 /**
  * +------------------------------------+-------------+
@@ -36,7 +46,60 @@ export namespace operations {
    * https://tools.ietf.org/html/rfc8011#section-4.3.3
    */
   export function cancelJob(request: Message): Message {
-    return request;
+    // assert.strictEqual(request.version, "1.1")
+    assert.strictEqual(request.operationIdOrStatusCode, CancelJob);
+    assert.strictEqual(
+      request.attributeGroups.filter(
+        ({ groupTag }) => groupTag === operationAttributesTag
+      ).length,
+      1
+    );
+
+    const response: Message = {
+      version: request.version,
+      requestId: request.requestId,
+      operationIdOrStatusCode: successfulOk,
+      attributeGroups: [
+        {
+          groupTag: operationAttributesTag,
+          attributes: [
+            {
+              name: "attributes-charset",
+              values: [new CharsetValue("utf-8")]
+            },
+            {
+              name: "attributes-natural-language",
+              values: [new NaturalLanguageValue("en-us")]
+            }
+          ]
+        },
+        {
+          groupTag: jobAttributesTag,
+          attributes: [
+            { name: "job-name", values: readWrite.jobName },
+            { name: "attributes-charse", values: readOnly.attributesCharset },
+            {
+              name: "attributes-natural-language",
+              values: readOnly.attributesNaturalLanguage
+            },
+            { name: "job-id", values: readOnly.jobId },
+            {
+              name: "job-originating-user-name",
+              values: readOnly.jobOriginatingUserName
+            },
+            { name: "job-printer-up-time", values: readOnly.jobPrinterUpTime },
+            { name: "job-printer-uri", values: readOnly.jobPrinterUri },
+            { name: "job-state", values: readOnly.jobState },
+            { name: "job-state-reasons", values: readOnly.jobStateReasons },
+            { name: "job-uri", values: readOnly.jobUri },
+            { name: "time-at-completed", values: readOnly.timeAtCompleted },
+            { name: "time-at-creation", values: readOnly.timeAtCreation },
+            { name: "time-at-processing", values: readOnly.timeAtProcessing }
+          ]
+        }
+      ]
+    };
+    return response;
   }
 
   /**
@@ -51,6 +114,59 @@ export namespace operations {
    * https://tools.ietf.org/html/rfc8011#section-4.3.4
    */
   export function getJobAttributes(request: Message): Message {
-    return request;
+    // assert.strictEqual(request.version, "1.1")
+    assert.strictEqual(request.operationIdOrStatusCode, GetJobAttributes);
+    assert.strictEqual(
+      request.attributeGroups.filter(
+        ({ groupTag }) => groupTag === operationAttributesTag
+      ).length,
+      1
+    );
+
+    const response: Message = {
+      version: request.version,
+      requestId: request.requestId,
+      operationIdOrStatusCode: successfulOk,
+      attributeGroups: [
+        {
+          groupTag: operationAttributesTag,
+          attributes: [
+            {
+              name: "attributes-charset",
+              values: [new CharsetValue("utf-8")]
+            },
+            {
+              name: "attributes-natural-language",
+              values: [new NaturalLanguageValue("en-us")]
+            }
+          ]
+        },
+        {
+          groupTag: jobAttributesTag,
+          attributes: [
+            { name: "job-name", values: readWrite.jobName },
+            { name: "attributes-charse", values: readOnly.attributesCharset },
+            {
+              name: "attributes-natural-language",
+              values: readOnly.attributesNaturalLanguage
+            },
+            { name: "job-id", values: readOnly.jobId },
+            {
+              name: "job-originating-user-name",
+              values: readOnly.jobOriginatingUserName
+            },
+            { name: "job-printer-up-time", values: readOnly.jobPrinterUpTime },
+            { name: "job-printer-uri", values: readOnly.jobPrinterUri },
+            { name: "job-state", values: readOnly.jobState },
+            { name: "job-state-reasons", values: readOnly.jobStateReasons },
+            { name: "job-uri", values: readOnly.jobUri },
+            { name: "time-at-completed", values: readOnly.timeAtCompleted },
+            { name: "time-at-creation", values: readOnly.timeAtCreation },
+            { name: "time-at-processing", values: readOnly.timeAtProcessing }
+          ]
+        }
+      ]
+    };
+    return response;
   }
 }

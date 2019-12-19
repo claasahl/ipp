@@ -1,4 +1,20 @@
-import { Message } from "../simple";
+import assert from "assert";
+
+import { Message, CharsetValue, NaturalLanguageValue } from "../simple";
+import { OperationId, StatusCode, BeginAttributeGroupTag } from "../low-level";
+import { readOnly, readWrite } from "./attributes";
+import {
+  readOnly as jobReadOnly,
+  readWrite as jobReadWrite
+} from "../job/attributes";
+
+const { GetPrinterAttributes, GetJobs } = OperationId;
+const { successfulOk } = StatusCode;
+const {
+  operationAttributesTag,
+  printerAttributesTag,
+  jobAttributesTag
+} = BeginAttributeGroupTag;
 
 /**
  * +----------------------------------------+-------------+
@@ -70,7 +86,99 @@ export namespace operations {
    * https://tools.ietf.org/html/rfc8011#section-4.2.5
    */
   export function getPrinterAttributes(request: Message): Message {
-    return request;
+    // assert.strictEqual(request.version, "1.1")
+    assert.strictEqual(request.operationIdOrStatusCode, GetPrinterAttributes);
+    assert.strictEqual(
+      request.attributeGroups.filter(
+        ({ groupTag }) => groupTag === operationAttributesTag
+      ).length,
+      1
+    );
+
+    const response: Message = {
+      version: request.version,
+      requestId: request.requestId,
+      operationIdOrStatusCode: successfulOk,
+      attributeGroups: [
+        {
+          groupTag: operationAttributesTag,
+          attributes: [
+            {
+              name: "attributes-charset",
+              values: [new CharsetValue("utf-8")]
+            },
+            {
+              name: "attributes-natural-language",
+              values: [new NaturalLanguageValue("en-us")]
+            }
+          ]
+        },
+        {
+          groupTag: printerAttributesTag,
+          attributes: [
+            { name: "charset-configured", values: readWrite.charsetConfigured },
+            { name: "charset-supported", values: readWrite.charsetSupported },
+            {
+              name: "compression-supported",
+              values: readWrite.compressionSupported
+            },
+            {
+              name: "document-format-default",
+              values: readWrite.documentFormatDefault
+            },
+            {
+              name: "document-format-supported",
+              values: readWrite.documentFormatSupported
+            },
+            {
+              name: "generated-natural-language-supported",
+              values: readWrite.generatedNaturalLanguageSupported
+            },
+            {
+              name: "ipp-versions-supported",
+              values: readWrite.ippVersionsSupported
+            },
+            {
+              name: "natural-language-configured",
+              values: readWrite.naturalLanguageConfigured
+            },
+            {
+              name: "operations-supported",
+              values: readWrite.operationsSupported
+            },
+            {
+              name: "pdl-override-supported",
+              values: readWrite.pdlOverrideSupported
+            },
+            { name: "printer-name", values: readWrite.printerName },
+            {
+              name: "printer-is-accepting-jobs",
+              values: readOnly.printerIsAcceptingJobs
+            },
+            { name: "printer-state", values: readOnly.printerState },
+            {
+              name: "printer-state-reasons",
+              values: readOnly.printerStateReasons
+            },
+            { name: "printer-up-time", values: readOnly.printerUpTime },
+            {
+              name: "printer-uri-supported",
+              values: readOnly.printerUriSupported
+            },
+            { name: "queued-job-count", values: readOnly.queuedJobCount },
+            {
+              name: "uri-authentication-supported",
+              values: readOnly.uriAuthenticationSupported
+            },
+            {
+              name: "uri-security-supported",
+              values: readOnly.uriSecuritySupported
+            }
+          ]
+        }
+      ]
+    };
+    return response;
   }
 
   /**
@@ -82,6 +190,65 @@ export namespace operations {
    * https://tools.ietf.org/html/rfc8011#section-4.2.6
    */
   export function getJobs(request: Message): Message {
-    return request;
+    // assert.strictEqual(request.version, "1.1")
+    assert.strictEqual(request.operationIdOrStatusCode, GetJobs);
+    assert.strictEqual(
+      request.attributeGroups.filter(
+        ({ groupTag }) => groupTag === operationAttributesTag
+      ).length,
+      1
+    );
+
+    const response: Message = {
+      version: request.version,
+      requestId: request.requestId,
+      operationIdOrStatusCode: successfulOk,
+      attributeGroups: [
+        {
+          groupTag: operationAttributesTag,
+          attributes: [
+            {
+              name: "attributes-charset",
+              values: [new CharsetValue("utf-8")]
+            },
+            {
+              name: "attributes-natural-language",
+              values: [new NaturalLanguageValue("en-us")]
+            }
+          ]
+        },
+        {
+          groupTag: jobAttributesTag,
+          attributes: [
+            { name: "job-name", values: jobReadWrite.jobName },
+            {
+              name: "attributes-charse",
+              values: jobReadOnly.attributesCharset
+            },
+            {
+              name: "attributes-natural-language",
+              values: jobReadOnly.attributesNaturalLanguage
+            },
+            { name: "job-id", values: jobReadOnly.jobId },
+            {
+              name: "job-originating-user-name",
+              values: jobReadOnly.jobOriginatingUserName
+            },
+            {
+              name: "job-printer-up-time",
+              values: jobReadOnly.jobPrinterUpTime
+            },
+            { name: "job-printer-uri", values: jobReadOnly.jobPrinterUri },
+            { name: "job-state", values: jobReadOnly.jobState },
+            { name: "job-state-reasons", values: jobReadOnly.jobStateReasons },
+            { name: "job-uri", values: jobReadOnly.jobUri },
+            { name: "time-at-completed", values: jobReadOnly.timeAtCompleted },
+            { name: "time-at-creation", values: jobReadOnly.timeAtCreation },
+            { name: "time-at-processing", values: jobReadOnly.timeAtProcessing }
+          ]
+        }
+      ]
+    };
+    return response;
   }
 }

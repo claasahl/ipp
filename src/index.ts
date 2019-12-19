@@ -8,6 +8,8 @@ import CONFIG from "./config";
 import logger from "./logger";
 import * as ipp from "./ipp/simple";
 import { OperationId, StatusCode } from "./ipp/low-level";
+import { operations as job } from "./ipp/job/operations";
+import { operations as printer } from "./ipp/printer/operations";
 
 const app = express();
 
@@ -60,10 +62,18 @@ app.listen(CONFIG.port, () => logger.info("Listening on port %d", CONFIG.port));
 function handleIppRequest(request: ipp.Message): ipp.Message {
   try {
     switch (request.operationIdOrStatusCode) {
+      case OperationId.CancelJob:
+        return job.cancelJob(request);
+      case OperationId.GetJobAttributes:
+        return job.getJobAttributes(request);
+      case OperationId.GetJobs:
+        return printer.getJobs(request);
+      case OperationId.GetPrinterAttributes:
+        return printer.getPrinterAttributes(request);
       default:
         return {
-          version: request.version,
-          operationIdOrStatusCode: StatusCode.clientErrorCharsetNotSupported,
+          version: "1.1",
+          operationIdOrStatusCode: StatusCode.serverErrorVersionNotSupported,
           requestId: request.requestId,
           attributeGroups: []
         };
@@ -71,7 +81,7 @@ function handleIppRequest(request: ipp.Message): ipp.Message {
   } finally {
     logger.info("Handling IPP request. %j", {
       ...request,
-      operationId:
+      operationIdOrStatusCode:
         OperationId[request.operationIdOrStatusCode] ||
         request.operationIdOrStatusCode
     });

@@ -1,3 +1,5 @@
+import * as Values from "../simple";
+
 /**
  * +-----------------------------+-----------------------+-------------+
  * | Attribute                   | Syntax                | REQUIRED?   |
@@ -59,17 +61,26 @@
  * https://tools.ietf.org/html/rfc8011#section-5.4
  */
 export const readWrite = {
-  charsetConfigured: undefined,
-  charsetSupported: undefined,
-  compressionSupported: undefined,
-  documentFormatDefault: undefined,
-  documentFormatSupported: undefined,
-  generatedNaturalLanguageSupported: undefined,
-  ippVersionsSupported: undefined,
-  naturalLanguageConfigured: undefined,
-  operationsSupported: undefined,
-  pdlOverrideSupported: undefined,
-  printerName: undefined
+  charsetConfigured: [new Values.CharsetValue("utf-8")],
+  charsetSupported: [new Values.CharsetValue("utf-8")],
+  compressionSupported: [new Values.KeywordValue("none")],
+  documentFormatDefault: [new Values.MimeMediaTypeValue("")],
+  documentFormatSupported: [
+    new Values.MimeMediaTypeValue("application/postscript")
+  ],
+  generatedNaturalLanguageSupported: [new Values.NaturalLanguageValue("en-us")],
+  ippVersionsSupported: [new Values.KeywordValue("1.1")],
+  naturalLanguageConfigured: [new Values.NaturalLanguageValue("en-us")],
+  operationsSupported: [
+    new Values.EnumValue(0x0002),
+    new Values.EnumValue(0x0004),
+    new Values.EnumValue(0x000a),
+    new Values.EnumValue(0x000b),
+    new Values.EnumValue(0x0008),
+    new Values.EnumValue(0x0009)
+  ],
+  pdlOverrideSupported: [new Values.KeywordValue("not-attempted")],
+  printerName: [new Values.NameWithoutLanguageValue("mr. printer")]
 };
 
 /**
@@ -106,12 +117,12 @@ export const readWrite = {
  * https://tools.ietf.org/html/rfc8011#section-5.4
  */
 export const readOnly = {
-  printerIsAcceptingJobs: undefined,
-  printerState: undefined,
-  printerStateReasons: undefined,
-  printerUpTime: undefined,
-  printerUriSupported: undefined,
-  queuedJobCount: undefined,
-  uriAuthenticationSupported: undefined,
-  uriSecuritySupported: undefined
+  printerIsAcceptingJobs: [new Values.BooleanValue(true)],
+  printerState: [new Values.EnumValue(3)],
+  printerStateReasons: [new Values.KeywordValue("none")],
+  printerUpTime: [new Values.IntegerValue(420)],
+  printerUriSupported: [new Values.UriValue("http://localhost:3000")],
+  queuedJobCount: [new Values.IntegerValue(1)],
+  uriAuthenticationSupported: [new Values.KeywordValue("none")],
+  uriSecuritySupported: [new Values.KeywordValue("none")]
 };
