@@ -1153,15 +1153,15 @@ export class MemberAttrNameValue implements Value {
   constructor(value: Buffer);
   constructor(param1?: Buffer | string) {
     if (typeof param1 === "string") {
-      this.memberattrName = param1;
+      this.memberAttrName = param1;
     } else if (Buffer.isBuffer(param1)) {
       this.value = param1;
     }
   }
-  get memberattrName() {
+  get memberAttrName() {
     return this._memberAttrName;
   }
-  set memberattrName(value: string) {
+  set memberAttrName(value: string) {
     this._memberAttrName = value;
     this._value = Buffer.from(value, "utf8");
   }
