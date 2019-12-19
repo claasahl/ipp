@@ -4,11 +4,14 @@ const {
   operationAttributesTag,
   unsupportedAttributesTag
 } = require("../../../../build/ipp/simple/constants").BeginAttributeGroupTag;
+const {
+  clientErrorAttributesOrValuesNotSupported
+} = require("../../../../build/ipp/simple/constants").StatusCode;
 
 test("Print-Job Response (Failure)", () => {
   const message = {
     version: "1.1",
-    operationIdOrStatusCode: 0x040b,
+    operationIdOrStatusCode: clientErrorAttributesOrValuesNotSupported,
     requestId: 0x00000001,
     attributeGroups: [
       {

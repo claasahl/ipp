@@ -5,11 +5,14 @@ const {
   jobAttributesTag,
   unsupportedAttributesTag
 } = require("../../../../build/ipp/simple/constants").BeginAttributeGroupTag;
+const {
+  successfulOkIgnoredOrSubstitutedAttributes
+} = require("../../../../build/ipp/simple/constants").StatusCode;
 
 test("Print-Job Response (Success with Attributes Ignored)", () => {
   const message = {
     version: "1.1",
-    operationIdOrStatusCode: 0x0001,
+    operationIdOrStatusCode: successfulOkIgnoredOrSubstitutedAttributes,
     requestId: 0x00000001,
     attributeGroups: [
       {

@@ -4,6 +4,9 @@ const {
   operationAttributesTag,
   jobAttributesTag
 } = require("../../../../build/ipp/simple/constants").BeginAttributeGroupTag;
+const {
+  successfulOk
+} = require("../../../../build/ipp/simple/constants").StatusCode;
 
 test("Print-Job Response (Successful)", () => {
   const data = Buffer.from(
@@ -13,7 +16,7 @@ test("Print-Job Response (Successful)", () => {
   const message = decode(data);
   expect(message).toStrictEqual({
     version: "1.1",
-    operationIdOrStatusCode: 0x0000,
+    operationIdOrStatusCode: successfulOk,
     requestId: 0x00000001,
     attributeGroups: [
       {
