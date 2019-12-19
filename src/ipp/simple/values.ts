@@ -1081,3 +1081,101 @@ export class OctetStringValue implements Value {
     throw new Error("valueTag for 'octetString' values must not be changed");
   }
 }
+
+/**
+ * +---------------+---------------------------------------------------+
+ * | Tag Value     | Meaning                                           |
+ * | (Hex)         |                                                   |
+ * +---------------+---------------------------------------------------+
+ * | 0x34          | begCollection                                     |
+ * +---------------+---------------------------------------------------+
+ *
+ * https://tools.ietf.org/html/rfc8010#section-3.5.2
+ * https://tools.ietf.org/html/rfc8010#section-3.1.6
+ */
+export class BegCollectionValue implements Value {
+  get value() {
+    return Buffer.alloc(0);
+  }
+  set value(_value: Buffer) {
+    throw new Error("value for 'begCollection' values must not be changed");
+  }
+  get valueTag() {
+    return ValueTag.begCollection;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'begCollection' values must not be changed");
+  }
+}
+
+/**
+ * +---------------+---------------------------------------------------+
+ * | Tag Value     | Meaning                                           |
+ * | (Hex)         |                                                   |
+ * +---------------+---------------------------------------------------+
+ * | 0x37          | endCollection                                     |
+ * +---------------+---------------------------------------------------+
+ *
+ * https://tools.ietf.org/html/rfc8010#section-3.5.2
+ * https://tools.ietf.org/html/rfc8010#section-3.1.6
+ */
+export class EndCollectionValue implements Value {
+  get value() {
+    return Buffer.alloc(0);
+  }
+  set value(_value: Buffer) {
+    throw new Error("value for 'endCollection' values must not be changed");
+  }
+  get valueTag() {
+    return ValueTag.endCollection;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'endCollection' values must not be changed");
+  }
+}
+
+/**
+ * +---------------+---------------------------------------------------+
+ * | Tag Value     | Meaning                                           |
+ * | (Hex)         |                                                   |
+ * +---------------+---------------------------------------------------+
+ * | 0x4a          | memberAttrName                                    |
+ * +---------------+---------------------------------------------------+
+ *
+ * https://tools.ietf.org/html/rfc8010#section-3.5.2
+ * https://tools.ietf.org/html/rfc8010#section-3.1.6
+ */
+export class MemberAttrNameValue implements Value {
+  private _value: Buffer = Buffer.from([]);
+  private _memberAttrName: string = "";
+  constructor();
+  constructor(name: string);
+  constructor(value: Buffer);
+  constructor(param1?: Buffer | string) {
+    if (typeof param1 === "string") {
+      this.memberattrName = param1;
+    } else if (Buffer.isBuffer(param1)) {
+      this.value = param1;
+    }
+  }
+  get memberattrName() {
+    return this._memberAttrName;
+  }
+  set memberattrName(value: string) {
+    this._memberAttrName = value;
+    this._value = Buffer.from(value, "utf8");
+  }
+  get value() {
+    return this._value;
+  }
+  set value(value: Buffer) {
+    this._memberAttrName = value.toString("utf8");
+    this._value = value;
+  }
+  get valueTag() {
+    return ValueTag.memberAttrName;
+  }
+  set valueTag(_value: number) {
+    throw new Error("valueTag for 'memberAttrName' values must not be changed");
+  }
+}

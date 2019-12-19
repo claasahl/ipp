@@ -8,7 +8,13 @@ import {
   VersionNumber
 } from "./types";
 import * as Values from "./values";
-import { unknownValue, noValue, unsupportedValue } from "./constants";
+import {
+  unknownValue,
+  noValue,
+  unsupportedValue,
+  begCollection,
+  endCollection
+} from "./constants";
 
 function decodeMessage(message: types.IppMessage): Message {
   const { versionNumber, requestId, operationIdOrStatusCode, data } = message;
@@ -98,6 +104,12 @@ function value(
       return new Values.RangeOfIntegerValue(v); //-- not in test cases
     case Values.OctetStringValue.prototype.valueTag:
       return new Values.OctetStringValue(v); //-- not in test cases
+    case Values.BegCollectionValue.prototype.valueTag:
+      return begCollection;
+    case Values.EndCollectionValue.prototype.valueTag:
+      return endCollection;
+    case Values.MemberAttrNameValue.prototype.valueTag:
+      return new Values.MemberAttrNameValue(v);
     default:
       return { value: v, valueTag };
   }

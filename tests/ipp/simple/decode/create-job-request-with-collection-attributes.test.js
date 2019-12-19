@@ -34,41 +34,17 @@ test("Create-Job Request with Collection Attributes", () => {
           {
             name: "media-col",
             values: [
-              {
-                valueTag: 0x34,
-                value: Buffer.from("", "utf8")
-              },
-              {
-                valueTag: 0x4a,
-                value: Buffer.from("media-size", "utf8")
-              },
-              {
-                valueTag: 0x34,
-                value: Buffer.from("", "utf8")
-              },
-              {
-                valueTag: 0x4a,
-                value: Buffer.from("x-dimension", "utf8")
-              },
+              new Values.BegCollectionValue(),
+              new Values.MemberAttrNameValue("media-size"),
+              new Values.BegCollectionValue(),
+              new Values.MemberAttrNameValue("x-dimension"),
               new Values.IntegerValue(21000),
-              {
-                valueTag: 0x4a,
-                value: Buffer.from("y-dimension", "utf8")
-              },
+              new Values.MemberAttrNameValue("y-dimension"),
               new Values.IntegerValue(29700),
-              {
-                valueTag: 0x37,
-                value: Buffer.from("", "utf8")
-              },
-              {
-                valueTag: 0x4a,
-                value: Buffer.from("media-type", "utf8")
-              },
+              new Values.EndCollectionValue(),
+              new Values.MemberAttrNameValue("media-type"),
               new Values.KeywordValue("stationery"),
-              {
-                valueTag: 0x37,
-                value: Buffer.from("", "utf8")
-              }
+              new Values.EndCollectionValue()
             ]
           }
         ]
