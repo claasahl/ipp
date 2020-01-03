@@ -64,7 +64,9 @@ export const readWrite = {
   charsetConfigured: [new Values.CharsetValue("utf-8")],
   charsetSupported: [new Values.CharsetValue("utf-8")],
   compressionSupported: [new Values.KeywordValue("none")],
-  documentFormatDefault: [new Values.MimeMediaTypeValue("")],
+  documentFormatDefault: [
+    new Values.MimeMediaTypeValue("application/postscript")
+  ],
   documentFormatSupported: [
     new Values.MimeMediaTypeValue("application/postscript")
   ],

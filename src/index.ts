@@ -62,6 +62,10 @@ app.listen(CONFIG.port, () => logger.info("Listening on port %d", CONFIG.port));
 function handleIppRequest(request: ipp.Message): ipp.Message {
   try {
     switch (request.operationIdOrStatusCode) {
+      case OperationId.PrintJob:
+        return printer.printJob(request);
+      case OperationId.ValidateJob:
+        return printer.validateJob(request);
       case OperationId.CancelJob:
         return job.cancelJob(request);
       case OperationId.GetJobAttributes:
@@ -83,7 +87,8 @@ function handleIppRequest(request: ipp.Message): ipp.Message {
       ...request,
       operationIdOrStatusCode:
         OperationId[request.operationIdOrStatusCode] ||
-        request.operationIdOrStatusCode
+        request.operationIdOrStatusCode,
+      data: `(${request.data?.length} bytes)`
     });
   }
 }

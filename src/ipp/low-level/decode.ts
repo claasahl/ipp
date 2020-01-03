@@ -168,6 +168,11 @@ function attributeWithOneValue(
 ): { data: types.AttributeWithOneValue; length: number } {
   const buffer = attributeWithOneValue.slice(begin, end);
   const valueTag = buffer.readIntBE(0, 1);
+  if (valueTag < 0x10) {
+    throw new Error(
+      `'valueTag' was ${valueTag}, but should have been between 0x10 (incl.) and 0xff (incl.)`
+    );
+  }
   const nameLength = buffer.readIntBE(1, 2);
   const name = buffer.slice(3, 3 + nameLength).toString("utf8");
   const valueLength = buffer.readIntBE(3 + nameLength, 2);

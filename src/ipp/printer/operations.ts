@@ -1,6 +1,11 @@
 import assert from "assert";
 
-import { Message, CharsetValue, NaturalLanguageValue } from "../simple";
+import {
+  Message,
+  CharsetValue,
+  NaturalLanguageValue,
+  TextWithoutLanguageValue
+} from "../simple";
 import { OperationId, StatusCode, BeginAttributeGroupTag } from "../low-level";
 import { readOnly, readWrite } from "./attributes";
 import {
@@ -8,12 +13,13 @@ import {
   readWrite as jobReadWrite
 } from "../job/attributes";
 
-const { GetPrinterAttributes, GetJobs } = OperationId;
+const { GetPrinterAttributes, GetJobs, PrintJob, ValidateJob } = OperationId;
 const { successfulOk } = StatusCode;
 const {
   operationAttributesTag,
   printerAttributesTag,
-  jobAttributesTag
+  jobAttributesTag,
+  unsupportedAttributesTag
 } = BeginAttributeGroupTag;
 
 /**
@@ -52,7 +58,49 @@ export namespace operations {
    * https://tools.ietf.org/html/rfc8011#section-4.2.1
    */
   export function printJob(request: Message): Message {
-    return request;
+    // assert.strictEqual(request.version, "1.1")
+    assert.strictEqual(request.operationIdOrStatusCode, PrintJob);
+    assert.strictEqual(
+      request.attributeGroups.filter(
+        ({ groupTag }) => groupTag === operationAttributesTag
+      ).length,
+      1
+    );
+
+    const response: Message = {
+      version: request.version,
+      requestId: request.requestId,
+      operationIdOrStatusCode: successfulOk,
+      attributeGroups: [
+        {
+          groupTag: operationAttributesTag,
+          attributes: [
+            {
+              name: "attributes-charset",
+              values: [new CharsetValue("utf-8")]
+            },
+            {
+              name: "attributes-natural-language",
+              values: [new NaturalLanguageValue("en-us")]
+            }
+          ]
+        },
+        {
+          groupTag: unsupportedAttributesTag,
+          attributes: []
+        },
+        {
+          groupTag: jobAttributesTag,
+          attributes: [
+            { name: "job-id", values: jobReadOnly.jobId },
+            { name: "job-uri", values: jobReadOnly.jobUri },
+            { name: "job-state", values: jobReadOnly.jobState },
+            { name: "job-state-reasons", values: jobReadOnly.jobStateReasons }
+          ]
+        }
+      ]
+    };
+    return response;
   }
 
   /**
@@ -72,7 +120,40 @@ export namespace operations {
    * https://tools.ietf.org/html/rfc8011#section-4.2.3
    */
   export function validateJob(request: Message): Message {
-    return request;
+    // assert.strictEqual(request.version, "1.1")
+    assert.strictEqual(request.operationIdOrStatusCode, ValidateJob);
+    assert.strictEqual(
+      request.attributeGroups.filter(
+        ({ groupTag }) => groupTag === operationAttributesTag
+      ).length,
+      1
+    );
+
+    const response: Message = {
+      version: request.version,
+      requestId: request.requestId,
+      operationIdOrStatusCode: successfulOk,
+      attributeGroups: [
+        {
+          groupTag: operationAttributesTag,
+          attributes: [
+            {
+              name: "attributes-charset",
+              values: [new CharsetValue("utf-8")]
+            },
+            {
+              name: "attributes-natural-language",
+              values: [new NaturalLanguageValue("en-us")]
+            }
+          ]
+        },
+        {
+          groupTag: unsupportedAttributesTag,
+          attributes: []
+        }
+      ]
+    };
+    return response;
   }
 
   /**
