@@ -4,18 +4,18 @@ export interface Message {
   version: VersionNumber;
   operationIdOrStatusCode: number;
   requestId: number;
-  attributeGroups: AttributeGroup[];
+  attributeGroups: ReadonlyArray<AttributeGroup>;
   data?: Buffer;
 }
 
 export interface AttributeGroup {
   groupTag: number;
-  attributes: Attribute[];
+  attributes: ReadonlyArray<Attribute>;
 }
 
 export interface Attribute {
   name: string;
-  values: Value[];
+  values: ReadonlyArray<Value>;
 }
 
 export interface Value {

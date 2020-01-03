@@ -8,8 +8,10 @@ import CONFIG from "./config";
 import logger from "./logger";
 import * as ipp from "./ipp/simple";
 import { OperationId, StatusCode } from "./ipp/low-level";
-import { operations as job } from "./ipp/job/operations";
-import { operations as printer } from "./ipp/printer/operations";
+import {
+  PrinterOperations as printer,
+  JobOperations as job
+} from "./ipp/printer/operations";
 
 const app = express();
 
