@@ -4,6 +4,9 @@ import { types } from "util";
 import { Value } from "./types";
 import { ValueTag } from "../low-level/constants";
 
+// local symbol... to prevent the Buffer from being printed by JSON.stringify
+const _value = Symbol("valueBuffer");
+
 /**
  *  +-----------------+-------------+
  *  | Tag Value (Hex) | Meaning     |
@@ -88,7 +91,7 @@ export class NoValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class TextWithoutLanguageValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private [_value]: Buffer = Buffer.from([]);
   private _text: string = "";
   constructor();
   constructor(text: string);
@@ -105,14 +108,14 @@ export class TextWithoutLanguageValue implements Value {
   }
   set text(value: string) {
     this._text = value;
-    this._value = Buffer.from(value, "utf8");
+    this[_value] = Buffer.from(value, "utf8");
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     this._text = value.toString("utf8");
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.textWithoutLanguage;
@@ -136,7 +139,7 @@ export class TextWithoutLanguageValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class NameWithoutLanguageValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private [_value]: Buffer = Buffer.from([]);
   private _name: string = "";
   constructor();
   constructor(name: string);
@@ -153,14 +156,14 @@ export class NameWithoutLanguageValue implements Value {
   }
   set name(value: string) {
     this._name = value;
-    this._value = Buffer.from(value, "utf8");
+    this[_value] = Buffer.from(value, "utf8");
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     this._name = value.toString("utf8");
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.nameWithoutLanguage;
@@ -191,7 +194,7 @@ export class NameWithoutLanguageValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class TextWithLanguageValue implements Value {
-  private _value: Buffer = Buffer.from([0, 0, 0, 0]);
+  private [_value]: Buffer = Buffer.from([0, 0, 0, 0]);
   private _language: string = "";
   private _text: string = "";
   constructor();
@@ -218,7 +221,7 @@ export class TextWithLanguageValue implements Value {
     buffer.write(this._text, 4 + languageLen, "utf8");
 
     this._language = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get text() {
     return this._text;
@@ -233,10 +236,10 @@ export class TextWithLanguageValue implements Value {
     buffer.write(value, 4 + languageLen, "utf8");
 
     this._text = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     const languageLen = value.readIntBE(0, 2);
@@ -248,7 +251,7 @@ export class TextWithLanguageValue implements Value {
 
     this._language = language;
     this._text = text;
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.textWithLanguage;
@@ -279,7 +282,7 @@ export class TextWithLanguageValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class NameWithLanguageValue implements Value {
-  private _value: Buffer = Buffer.from([0, 0, 0, 0]);
+  private [_value]: Buffer = Buffer.from([0, 0, 0, 0]);
   private _language: string = "";
   private _name: string = "";
   constructor();
@@ -306,7 +309,7 @@ export class NameWithLanguageValue implements Value {
     buffer.write(this._name, 4 + languageLen, "utf8");
 
     this._language = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get name() {
     return this._name;
@@ -321,10 +324,10 @@ export class NameWithLanguageValue implements Value {
     buffer.write(value, 4 + languageLen, "utf8");
 
     this._name = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     const languageLen = value.readIntBE(0, 2);
@@ -336,7 +339,7 @@ export class NameWithLanguageValue implements Value {
 
     this._language = language;
     this._name = name;
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.nameWithLanguage;
@@ -363,7 +366,7 @@ export class NameWithLanguageValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class CharsetValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private [_value]: Buffer = Buffer.from([]);
   private _charset: string = "";
   constructor();
   constructor(charset: string);
@@ -380,14 +383,14 @@ export class CharsetValue implements Value {
   }
   set charset(value: string) {
     this._charset = value;
-    this._value = Buffer.from(value, "utf8");
+    this[_value] = Buffer.from(value, "utf8");
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     this._charset = value.toString("utf8");
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.charset;
@@ -412,7 +415,7 @@ export class CharsetValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class NaturalLanguageValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private [_value]: Buffer = Buffer.from([]);
   private _language: string = "";
   constructor();
   constructor(language: string);
@@ -429,14 +432,14 @@ export class NaturalLanguageValue implements Value {
   }
   set language(value: string) {
     this._language = value;
-    this._value = Buffer.from(value, "utf8");
+    this[_value] = Buffer.from(value, "utf8");
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     this._language = value.toString("utf8");
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.naturalLanguage;
@@ -463,7 +466,7 @@ export class NaturalLanguageValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class MimeMediaTypeValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private [_value]: Buffer = Buffer.from([]);
   private _mimeMediaType: string = "";
   constructor();
   constructor(mimeMediaType: string);
@@ -480,14 +483,14 @@ export class MimeMediaTypeValue implements Value {
   }
   set mimeMediaType(value: string) {
     this._mimeMediaType = value;
-    this._value = Buffer.from(value, "utf8");
+    this[_value] = Buffer.from(value, "utf8");
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     this._mimeMediaType = value.toString("utf8");
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.mimeMediaType;
@@ -511,7 +514,7 @@ export class MimeMediaTypeValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class KeywordValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private [_value]: Buffer = Buffer.from([]);
   private _keyword: string = "";
   constructor();
   constructor(keyword: string);
@@ -528,14 +531,14 @@ export class KeywordValue implements Value {
   }
   set keyword(value: string) {
     this._keyword = value;
-    this._value = Buffer.from(value, "utf8");
+    this[_value] = Buffer.from(value, "utf8");
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     this._keyword = value.toString("utf8");
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.keyword;
@@ -560,7 +563,7 @@ export class KeywordValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class UriValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private [_value]: Buffer = Buffer.from([]);
   private _uri: string = "";
   constructor();
   constructor(uri: string);
@@ -577,14 +580,14 @@ export class UriValue implements Value {
   }
   set uri(value: string) {
     this._uri = value;
-    this._value = Buffer.from(value, "utf8");
+    this[_value] = Buffer.from(value, "utf8");
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     this._uri = value.toString("utf8");
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.uri;
@@ -609,7 +612,7 @@ export class UriValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class UriSchemeValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private [_value]: Buffer = Buffer.from([]);
   private _uriScheme: string = "";
   constructor();
   constructor(uriScheme: string);
@@ -626,14 +629,14 @@ export class UriSchemeValue implements Value {
   }
   set uriScheme(value: string) {
     this._uriScheme = value;
-    this._value = Buffer.from(value, "utf8");
+    this[_value] = Buffer.from(value, "utf8");
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     this._uriScheme = value.toString("utf8");
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.uriScheme;
@@ -655,7 +658,7 @@ export class UriSchemeValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class BooleanValue implements Value {
-  private _value: Buffer = Buffer.from([0]);
+  private [_value]: Buffer = Buffer.from([0]);
   private _flag: boolean = false;
   constructor();
   constructor(flag: boolean);
@@ -672,16 +675,16 @@ export class BooleanValue implements Value {
   }
   set flag(value: boolean) {
     this._flag = value;
-    this._value = Buffer.from([value ? 1 : 0]);
+    this[_value] = Buffer.from([value ? 1 : 0]);
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     const flag = value.readIntBE(0, 1) === 1;
 
     this._flag = flag;
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.boolean;
@@ -702,7 +705,7 @@ export class BooleanValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class IntegerValue implements Value {
-  private _value: Buffer = Buffer.from([0, 0, 0, 0]);
+  private [_value]: Buffer = Buffer.from([0, 0, 0, 0]);
   private _integer: number = 0;
   constructor();
   constructor(integer: number);
@@ -722,16 +725,16 @@ export class IntegerValue implements Value {
     buffer.writeIntBE(value, 0, 4);
 
     this._integer = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     const integer = value.readIntBE(0, 4);
 
     this._integer = integer;
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.integer;
@@ -753,7 +756,7 @@ export class IntegerValue implements Value {
  */
 export class EnumValue implements Value {
   // TODO make generic?
-  private _value: Buffer = Buffer.from([0, 0, 0, 0]);
+  private [_value]: Buffer = Buffer.from([0, 0, 0, 0]);
   private _enum: number = 0;
   constructor();
   constructor(enumValue: number);
@@ -773,16 +776,16 @@ export class EnumValue implements Value {
     buffer.writeIntBE(value, 0, 4);
 
     this._enum = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     const integer = value.readIntBE(0, 4);
 
     this._enum = integer;
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.enum;
@@ -821,7 +824,7 @@ export class EnumValue implements Value {
  * https://tools.ietf.org/html/rfc2579#section-2
  */
 export class DateTimeValue implements Value {
-  private _value: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  private [_value]: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
   private _dateTime: Date = new Date(0);
   constructor();
   constructor(dateTime: Date);
@@ -850,10 +853,10 @@ export class DateTimeValue implements Value {
     buffer.writeIntBE(0, 10, 1);
 
     this._dateTime = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     const year = value.readIntBE(0, 2);
@@ -882,7 +885,7 @@ export class DateTimeValue implements Value {
     const dateTime = new Date(t);
 
     this._dateTime = dateTime;
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.dateTime;
@@ -911,7 +914,7 @@ export class DateTimeValue implements Value {
  */
 export class ResolutionValue implements Value {
   // TODO make units an enum
-  private _value: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0]);
+  private [_value]: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0, 0]);
   private _crossFeed: number = 0;
   private _feed: number = 0;
   private _units: number = 0;
@@ -941,7 +944,7 @@ export class ResolutionValue implements Value {
     buffer.writeIntBE(this._units, 8, 1);
 
     this._crossFeed = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get feed() {
     return this._feed;
@@ -953,7 +956,7 @@ export class ResolutionValue implements Value {
     buffer.writeIntBE(this._units, 8, 1);
 
     this._feed = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get units() {
     return this._units;
@@ -965,10 +968,10 @@ export class ResolutionValue implements Value {
     buffer.writeIntBE(value, 8, 1);
 
     this._units = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     const lowerBound = value.readIntBE(0, 4);
@@ -978,7 +981,7 @@ export class ResolutionValue implements Value {
     this._crossFeed = lowerBound;
     this._feed = upperBound;
     this._units = units;
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.resolution;
@@ -1002,7 +1005,7 @@ export class ResolutionValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.9
  */
 export class RangeOfIntegerValue implements Value {
-  private _value: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0]);
+  private [_value]: Buffer = Buffer.from([0, 0, 0, 0, 0, 0, 0, 0]);
   private _lowerBound: number = 0;
   private _upperBound: number = 0;
   constructor();
@@ -1025,7 +1028,7 @@ export class RangeOfIntegerValue implements Value {
     buffer.writeIntBE(this._upperBound, 4, 4);
 
     this._lowerBound = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get upperBound() {
     return this._upperBound;
@@ -1036,10 +1039,10 @@ export class RangeOfIntegerValue implements Value {
     buffer.writeIntBE(value, 4, 4);
 
     this._upperBound = value;
-    this._value = buffer;
+    this[_value] = buffer;
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     const lowerBound = value.readIntBE(0, 4);
@@ -1047,7 +1050,7 @@ export class RangeOfIntegerValue implements Value {
 
     this._lowerBound = lowerBound;
     this._upperBound = upperBound;
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.rangeOfInteger;
@@ -1146,7 +1149,7 @@ export class EndCollectionValue implements Value {
  * https://tools.ietf.org/html/rfc8010#section-3.1.6
  */
 export class MemberAttrNameValue implements Value {
-  private _value: Buffer = Buffer.from([]);
+  private [_value]: Buffer = Buffer.from([]);
   private _memberAttrName: string = "";
   constructor();
   constructor(name: string);
@@ -1163,14 +1166,14 @@ export class MemberAttrNameValue implements Value {
   }
   set memberAttrName(value: string) {
     this._memberAttrName = value;
-    this._value = Buffer.from(value, "utf8");
+    this[_value] = Buffer.from(value, "utf8");
   }
   get value() {
-    return this._value;
+    return this[_value];
   }
   set value(value: Buffer) {
     this._memberAttrName = value.toString("utf8");
-    this._value = value;
+    this[_value] = value;
   }
   get valueTag() {
     return ValueTag.memberAttrName;
